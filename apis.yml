@@ -1,0 +1,70 @@
+aid: facebook-lead-ads
+name: Facebook Lead Ads
+description: >-
+  Facebook Lead Ads (part of the Meta Marketing API) lets advertisers create
+  instant lead-generation forms on Facebook and Instagram and programmatically
+  retrieve the leads captured through those forms. Through the Meta Graph API
+  developers can list lead generation forms on a Page, read submitted leads,
+  download bulk lead exports, and subscribe to webhooks for real-time lead
+  delivery. Authentication uses Page access tokens issued via Facebook Login /
+  Meta Business Login with the leads_retrieval, pages_show_list, and
+  pages_manage_ads permissions.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Advertising
+  - Lead Generation
+  - Lead Ads
+  - Marketing API
+  - Facebook
+  - Instagram
+  - Meta
+  - Webhooks
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/apis.yml
+created: '2026-05-11'
+modified: '2026-05-11'
+specificationVersion: '0.19'
+apis:
+  - aid: facebook-lead-ads:graph-api
+    name: Meta Marketing API - Lead Ads
+    description: >-
+      Graph API endpoints for managing Facebook and Instagram lead generation
+      forms, retrieving captured leads, exporting bulk lead data, and
+      subscribing to leadgen webhooks. Authentication uses Page access tokens
+      with leads_retrieval, pages_show_list, and pages_manage_ads permissions.
+    humanURL: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+    baseURL: https://graph.facebook.com
+    tags:
+      - Lead Ads
+      - Lead Generation
+      - Marketing API
+      - Graph API
+      - Webhooks
+    properties:
+      - type: Documentation
+        url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+      - type: API Reference
+        url: https://developers.facebook.com/docs/marketing-api/reference/
+      - type: Retrieving Leads
+        url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+      - type: Webhooks
+        url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/quickstart-webhook
+common:
+  - type: Website
+    url: https://www.facebook.com/business/ads/lead-ads
+  - type: Documentation
+    url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+  - type: Developer Portal
+    url: https://developers.facebook.com
+  - type: Marketing API
+    url: https://developers.facebook.com/docs/marketing-api/
+  - type: Sign Up
+    url: https://developers.facebook.com/async/registration/
+  - type: App Dashboard
+    url: https://developers.facebook.com/apps/
+  - type: Support
+    url: https://developers.facebook.com/support/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
