@@ -44,7 +44,7 @@ apis:
     properties:
       - type: Documentation
         url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
-      - type: API Reference
+      - type: APIReference
         url: https://developers.facebook.com/docs/marketing-api/reference/
       - type: Retrieving Leads
         url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
@@ -59,7 +59,7 @@ common:
     url: https://developers.facebook.com
   - type: Marketing API
     url: https://developers.facebook.com/docs/marketing-api/
-  - type: Sign Up
+  - type: SignUp
     url: https://developers.facebook.com/async/registration/
   - type: App Dashboard
     url: https://developers.facebook.com/apps/
