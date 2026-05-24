@@ -65,6 +65,8 @@ common:
     url: https://developers.facebook.com/apps/
   - type: Support
     url: https://developers.facebook.com/support/
+  - type: LLMsTxt
+    url: https://developers.facebook.com/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
