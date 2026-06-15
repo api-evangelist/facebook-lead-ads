@@ -1,0 +1,267 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Meta Marketing API - Lead Ads",
+    "version": "v22.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.facebook.com/v22.0/dialog/oauth",
+      "accessTokenUrl": "https://graph.facebook.com/v22.0/oauth/access_token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "List lead generation forms on a Page",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://graph.facebook.com/v22.0/:page-id/leadgen_forms",
+        "params": [
+          {
+            "name": "page-id",
+            "value": "",
+            "type": "path",
+            "description": "Facebook Page ID"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of fields to return."
+          }
+        ]
+      },
+      "docs": "List lead generation forms on a Page"
+    },
+    {
+      "info": {
+        "name": "Create a lead generation form on a Page",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v22.0/:page-id/leadgen_forms",
+        "params": [
+          {
+            "name": "page-id",
+            "value": "",
+            "type": "path",
+            "description": "Facebook Page ID"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Create a lead generation form on a Page"
+    },
+    {
+      "info": {
+        "name": "Get a lead generation form",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://graph.facebook.com/v22.0/:form-id",
+        "params": [
+          {
+            "name": "form-id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of fields to return."
+          }
+        ]
+      },
+      "docs": "Get a lead generation form"
+    },
+    {
+      "info": {
+        "name": "List leads captured by a form",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://graph.facebook.com/v22.0/:form-id/leads",
+        "params": [
+          {
+            "name": "form-id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of fields to return."
+          },
+          {
+            "name": "filtering",
+            "value": "",
+            "type": "query",
+            "description": "JSON-encoded filter list, e.g. by time_created."
+          }
+        ]
+      },
+      "docs": "List leads captured by a form"
+    },
+    {
+      "info": {
+        "name": "Get a single lead",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://graph.facebook.com/v22.0/:lead-id",
+        "params": [
+          {
+            "name": "lead-id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of fields to return."
+          }
+        ]
+      },
+      "docs": "Get a single lead"
+    },
+    {
+      "info": {
+        "name": "List leads for an ad",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://graph.facebook.com/v22.0/:ad-id/leads",
+        "params": [
+          {
+            "name": "ad-id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "fields",
+            "value": "",
+            "type": "query",
+            "description": "Comma-separated list of fields to return."
+          }
+        ]
+      },
+      "docs": "List leads for an ad"
+    },
+    {
+      "info": {
+        "name": "Bulk download leads for a form",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://graph.facebook.com/v22.0/:form-id/bulk_leads",
+        "params": [
+          {
+            "name": "form-id",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "from_date",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "to_date",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Bulk download leads for a form"
+    },
+    {
+      "info": {
+        "name": "Subscribe an app to leadgen webhook events",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v22.0/:app-id/subscriptions",
+        "params": [
+          {
+            "name": "app-id",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "form-urlencoded",
+          "data": [
+            {
+              "name": "object",
+              "value": ""
+            },
+            {
+              "name": "callback_url",
+              "value": ""
+            },
+            {
+              "name": "fields",
+              "value": ""
+            },
+            {
+              "name": "verify_token",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "docs": "Subscribe an app to leadgen webhook events"
+    },
+    {
+      "info": {
+        "name": "Subscribe an app to a Page for leadgen webhooks",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v22.0/:page-id/subscribed_apps",
+        "params": [
+          {
+            "name": "page-id",
+            "value": "",
+            "type": "path",
+            "description": "Facebook Page ID"
+          }
+        ],
+        "body": {
+          "type": "form-urlencoded",
+          "data": [
+            {
+              "name": "subscribed_fields",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "docs": "Subscribe an app to a Page for leadgen webhooks"
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1041 @@
+{
+  "item": [
+    {
+      "id": "62510a2e-b142-4f53-97ea-e6f458283f66",
+      "name": "List lead generation forms on a Page",
+      "request": {
+        "name": "List lead generation forms on a Page",
+        "description": {},
+        "url": {
+          "path": [
+            ":page-id",
+            "leadgen_forms"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "Comma-separated list of fields to return."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "page-id",
+              "description": "(Required) Facebook Page ID"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "63caef75-978d-41b5-88b9-f0dda5830d8b",
+          "name": "Forms collection",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":page-id",
+                "leadgen_forms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "page-id",
+                  "description": "(Required) Facebook Page ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"paging\": {\n    \"cursors\": {\n      \"before\": \"string\",\n      \"after\": \"string\"\n    },\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "8b482f26-4990-48bc-ae41-367d33e0a980",
+      "name": "Create a lead generation form on a Page",
+      "request": {
+        "name": "Create a lead generation form on a Page",
+        "description": {},
+        "url": {
+          "path": [
+            ":page-id",
+            "leadgen_forms"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "page-id",
+              "description": "(Required) Facebook Page ID"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"<string>\",\n  \"questions\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"privacy_policy\": \"<object>\",\n  \"follow_up_action_url\": \"<string>\",\n  \"locale\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "c5e380a4-d4ba-48dd-a26a-283bf7cf5ab7",
+          "name": "Form created",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":page-id",
+                "leadgen_forms"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "page-id",
+                  "description": "(Required) Facebook Page ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"questions\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"privacy_policy\": \"<object>\",\n  \"follow_up_action_url\": \"<string>\",\n  \"locale\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"string\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "d70ee916-3317-49ca-8254-36f6b676e729",
+      "name": "Get a lead generation form",
+      "request": {
+        "name": "Get a lead generation form",
+        "description": {},
+        "url": {
+          "path": [
+            ":form-id"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "Comma-separated list of fields to return."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "form-id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "ab39b42c-e4fe-4460-8d14-816c72440d14",
+          "name": "Form",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":form-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "form-id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "87bfb812-def9-4fb1-84e3-8890943865e7",
+      "name": "List leads captured by a form",
+      "request": {
+        "name": "List leads captured by a form",
+        "description": {},
+        "url": {
+          "path": [
+            ":form-id",
+            "leads"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "Comma-separated list of fields to return."
+            },
+            {
+              "disabled": false,
+              "key": "filtering",
+              "value": "<string>",
+              "description": "JSON-encoded filter list, e.g. by time_created."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "form-id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "5be7c67a-8d33-4c41-8dba-e0011b3126ef",
+          "name": "Leads collection",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":form-id",
+                "leads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                },
+                {
+                  "key": "filtering",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "form-id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"paging\": {\n    \"cursors\": {\n      \"before\": \"string\",\n      \"after\": \"string\"\n    },\n    \"next\": \"string\",\n    \"previous\": \"string\"\n  }\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "3ccd853b-1942-4bc2-890c-7b00b08f63fd",
+      "name": "Get a single lead",
+      "request": {
+        "name": "Get a single lead",
+        "description": {},
+        "url": {
+          "path": [
+            ":lead-id"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "Comma-separated list of fields to return."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "lead-id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "7a961b8b-cd9d-463a-8b88-c1a55c1cc9f7",
+          "name": "Lead record",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":lead-id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "lead-id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"string\",\n  \"created_time\": \"1993-03-30T21:55:05.565Z\",\n  \"ad_id\": \"string\",\n  \"form_id\": \"string\",\n  \"field_data\": [\n    {\n      \"name\": \"string\",\n      \"values\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"values\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "c6a08332-a245-4dda-b50e-767a24a12349",
+      "name": "List leads for an ad",
+      "request": {
+        "name": "List leads for an ad",
+        "description": {},
+        "url": {
+          "path": [
+            ":ad-id",
+            "leads"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "Comma-separated list of fields to return."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "ad-id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "79766bbe-0c56-4309-a70a-9a525f7f95aa",
+          "name": "Leads collection",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":ad-id",
+                "leads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ad-id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "076eb0c3-34d9-41d3-a5b0-2d78f5ddb620",
+      "name": "Bulk download leads for a form",
+      "request": {
+        "name": "Bulk download leads for a form",
+        "description": {},
+        "url": {
+          "path": [
+            ":form-id",
+            "bulk_leads"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "from_date",
+              "value": "<date>"
+            },
+            {
+              "disabled": false,
+              "key": "to_date",
+              "value": "<date>"
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "form-id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "d39b5ef4-87f4-415e-b05a-4a92abdfc049",
+          "name": "Bulk leads payload",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":form-id",
+                "bulk_leads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "from_date",
+                  "value": "<date>"
+                },
+                {
+                  "key": "to_date",
+                  "value": "<date>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "form-id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "fba8d8e1-7806-43db-949f-830d146c28d0",
+      "name": "Subscribe an app to leadgen webhook events",
+      "request": {
+        "name": "Subscribe an app to leadgen webhook events",
+        "description": {},
+        "url": {
+          "path": [
+            ":app-id",
+            "subscriptions"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "app-id",
+              "description": "(Required) "
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "disabled": false,
+              "key": "object",
+              "value": "<string>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "callback_url",
+              "value": "<uri>",
+              "description": "(Required) "
+            },
+            {
+              "disabled": false,
+              "key": "fields",
+              "value": "<string>",
+              "description": "(Required) Comma-separated, must include \"leadgen\"."
+            },
+            {
+              "disabled": false,
+              "key": "verify_token",
+              "value": "<string>",
+              "description": "(Required) "
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "f7f9edf8-7ac3-4822-ab15-afffd6e17987",
+          "name": "Subscription confirmed",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":app-id",
+                "subscriptions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "app-id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) ",
+                    "type": "text/plain"
+                  },
+                  "key": "object",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) ",
+                    "type": "text/plain"
+                  },
+                  "key": "callback_url",
+                  "value": "<uri>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Comma-separated, must include \"leadgen\".",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) ",
+                    "type": "text/plain"
+                  },
+                  "key": "verify_token",
+                  "value": "<string>"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "b312c677-1030-489c-936a-e2fad91d552e",
+      "name": "Subscribe an app to a Page for leadgen webhooks",
+      "request": {
+        "name": "Subscribe an app to a Page for leadgen webhooks",
+        "description": {},
+        "url": {
+          "path": [
+            ":page-id",
+            "subscribed_apps"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "page-id",
+              "description": "(Required) Facebook Page ID"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "disabled": false,
+              "key": "subscribed_fields",
+              "value": "<string>",
+              "description": "Comma-separated; include \"leadgen\"."
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "d614b0a9-84f9-4d77-a932-87a9004288c7",
+          "name": "Page subscribed",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":page-id",
+                "subscribed_apps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "page-id",
+                  "description": "(Required) Facebook Page ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: oauth2",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "<token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Comma-separated; include \"leadgen\".",
+                    "type": "text/plain"
+                  },
+                  "key": "subscribed_fields",
+                  "value": "<string>"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://graph.facebook.com/v22.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "leads_retrieval pages_show_list pages_manage_ads"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://graph.facebook.com/v22.0/oauth/access_token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://www.facebook.com/v22.0/dialog/oauth"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6c844753-799f-4563-969c-bdfd8645e491",
+    "name": "Meta Marketing API - Lead Ads",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Graph API endpoints for managing Facebook and Instagram lead\ngeneration forms, retrieving captured leads, downloading bulk lead\nexports, and configuring leadgen webhooks. Authentication uses a\nPage access token (OAuth 2.0 bearer) with the leads_retrieval,\npages_show_list, and pages_manage_ads permissions granted by a Page\nadmin.\n\n\nContact Support:\n Name: Meta for Developers",
+      "type": "text/plain"
+    }
+  }
+}
