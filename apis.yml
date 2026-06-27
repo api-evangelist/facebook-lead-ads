@@ -55,17 +55,17 @@ common:
     url: https://www.facebook.com/business/ads/lead-ads
   - type: Documentation
     url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
-  - type: Developer Portal
+  - type: DeveloperPortal
     url: https://developers.facebook.com
   - type: Marketing API
     url: https://developers.facebook.com/docs/marketing-api/
-  - type: SignUp
+  - type: Signup
     url: https://developers.facebook.com/async/registration/
   - type: App Dashboard
     url: https://developers.facebook.com/apps/
   - type: Support
     url: https://developers.facebook.com/support/
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://developers.facebook.com/llms.txt
 maintainers:
   - FN: Kin Lane
