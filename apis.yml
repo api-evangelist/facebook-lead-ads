@@ -51,6 +51,8 @@ apis:
       - type: Webhooks
         url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/quickstart-webhook
 common:
+  - type: OAuthScopes
+    url: scopes/facebook-lead-ads-scopes.yml
   - type: Website
     url: https://www.facebook.com/business/ads/lead-ads
   - type: Documentation

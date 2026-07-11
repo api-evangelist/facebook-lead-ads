@@ -1,0 +1,33 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/facebook-lead-ads-openapi.yml
+schemes:
+- name: PageAccessToken
+  source: openapi/facebook-lead-ads-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
+    tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
+  description: |-
+    Page access token obtained via Facebook Login / Meta Business
+    Login with leads_retrieval, pages_show_list, and
+    pages_manage_ads permissions.
+scopes:
+- scope: leads_retrieval
+  description: Read leads from lead ad forms
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/facebook-lead-ads-openapi.yml
+- scope: pages_manage_ads
+  description: Manage ads associated with a Page
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/facebook-lead-ads-openapi.yml
+- scope: pages_show_list
+  description: List Pages the user manages
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/facebook-lead-ads-openapi.yml
