@@ -51,6 +51,8 @@ apis:
       - type: Webhooks
         url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/quickstart-webhook
 common:
+  - type: AgenticAccess
+    url: agentic-access/facebook-lead-ads-agentic-access.yml
   - type: Authentication
     url: authentication/facebook-lead-ads-authentication.yml
   - type: OAuthScopes
