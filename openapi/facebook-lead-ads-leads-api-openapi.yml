@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  title: Meta Marketing API - Lead Ads Bulk Leads API
+  description: 'Graph API endpoints for managing Facebook and Instagram lead
+
+    generation forms, retrieving captured leads, downloading bulk lead
+
+    exports, and configuring leadgen webhooks. Authentication uses a
+
+    Page access token (OAuth 2.0 bearer) with the leads_retrieval,
+
+    pages_show_list, and pages_manage_ads permissions granted by a Page
+
+    admin.
+
+    '
+  version: v22.0
+  contact:
+    name: Meta for Developers
+    url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+servers:
+- url: https://graph.facebook.com/v22.0
+  description: Meta Graph API
+security:
+- PageAccessToken:
+  - leads_retrieval
+  - pages_show_list
+  - pages_manage_ads
+tags:
+- name: Leads
+paths:
+  /{form-id}/leads:
+    parameters:
+    - name: form-id
+      in: path
+      required: true
+      schema:
+        type: string
+    - $ref: '#/components/parameters/Fields'
+    - name: filtering
+      in: query
+      schema:
+        type: string
+      description: JSON-encoded filter list, e.g. by time_created.
+    get:
+      summary: List leads captured by a form
+      operationId: listLeadsForForm
+      responses:
+        '200':
+          description: Leads collection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphCollection'
+      tags:
+      - Leads
+  /{ad-id}/leads:
+    parameters:
+    - name: ad-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: List leads for an ad
+      operationId: listLeadsForAd
+      parameters:
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: Leads collection
+      tags:
+      - Leads
+components:
+  schemas:
+    GraphCollection:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        paging:
+          type: object
+          properties:
+            cursors:
+              type: object
+              properties:
+                before:
+                  type: string
+                after:
+                  type: string
+            next:
+              type: string
+            previous:
+              type: string
+  parameters:
+    Fields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
+  securitySchemes:
+    PageAccessToken:
+      type: oauth2
+      description: 'Page access token obtained via Facebook Login / Meta Business
+
+        Login with leads_retrieval, pages_show_list, and
+
+        pages_manage_ads permissions.
+
+        '
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
+          tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
+          scopes:
+            leads_retrieval: Read leads from lead ad forms
+            pages_show_list: List Pages the user manages
+            pages_manage_ads: Manage ads associated with a Page

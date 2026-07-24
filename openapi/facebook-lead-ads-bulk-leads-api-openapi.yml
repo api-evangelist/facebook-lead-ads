@@ -1,0 +1,76 @@
+openapi: 3.1.0
+info:
+  title: Meta Marketing API - Lead Ads Bulk Leads API
+  description: 'Graph API endpoints for managing Facebook and Instagram lead
+
+    generation forms, retrieving captured leads, downloading bulk lead
+
+    exports, and configuring leadgen webhooks. Authentication uses a
+
+    Page access token (OAuth 2.0 bearer) with the leads_retrieval,
+
+    pages_show_list, and pages_manage_ads permissions granted by a Page
+
+    admin.
+
+    '
+  version: v22.0
+  contact:
+    name: Meta for Developers
+    url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+servers:
+- url: https://graph.facebook.com/v22.0
+  description: Meta Graph API
+security:
+- PageAccessToken:
+  - leads_retrieval
+  - pages_show_list
+  - pages_manage_ads
+tags:
+- name: Bulk Leads
+paths:
+  /{form-id}/bulk_leads:
+    parameters:
+    - name: form-id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Bulk download leads for a form
+      operationId: bulkDownloadLeads
+      parameters:
+      - name: from_date
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: to_date
+        in: query
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Bulk leads payload
+      tags:
+      - Bulk Leads
+components:
+  securitySchemes:
+    PageAccessToken:
+      type: oauth2
+      description: 'Page access token obtained via Facebook Login / Meta Business
+
+        Login with leads_retrieval, pages_show_list, and
+
+        pages_manage_ads permissions.
+
+        '
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
+          tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
+          scopes:
+            leads_retrieval: Read leads from lead ad forms
+            pages_show_list: List Pages the user manages
+            pages_manage_ads: Manage ads associated with a Page

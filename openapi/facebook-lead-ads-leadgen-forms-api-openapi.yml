@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: Meta Marketing API - Lead Ads Bulk Leads Leadgen Forms API
+  description: 'Graph API endpoints for managing Facebook and Instagram lead
+
+    generation forms, retrieving captured leads, downloading bulk lead
+
+    exports, and configuring leadgen webhooks. Authentication uses a
+
+    Page access token (OAuth 2.0 bearer) with the leads_retrieval,
+
+    pages_show_list, and pages_manage_ads permissions granted by a Page
+
+    admin.
+
+    '
+  version: v22.0
+  contact:
+    name: Meta for Developers
+    url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+servers:
+- url: https://graph.facebook.com/v22.0
+  description: Meta Graph API
+security:
+- PageAccessToken:
+  - leads_retrieval
+  - pages_show_list
+  - pages_manage_ads
+tags:
+- name: Leadgen Forms
+paths:
+  /{page-id}/leadgen_forms:
+    parameters:
+    - $ref: '#/components/parameters/PageId'
+    get:
+      summary: List lead generation forms on a Page
+      operationId: listLeadGenForms
+      parameters:
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: Forms collection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphCollection'
+      tags:
+      - Leadgen Forms
+    post:
+      summary: Create a lead generation form on a Page
+      operationId: createLeadGenForm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                questions:
+                  type: array
+                  items:
+                    type: object
+                privacy_policy:
+                  type: object
+                follow_up_action_url:
+                  type: string
+                locale:
+                  type: string
+      responses:
+        '200':
+          description: Form created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+      tags:
+      - Leadgen Forms
+components:
+  schemas:
+    GraphCollection:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        paging:
+          type: object
+          properties:
+            cursors:
+              type: object
+              properties:
+                before:
+                  type: string
+                after:
+                  type: string
+            next:
+              type: string
+            previous:
+              type: string
+  parameters:
+    PageId:
+      name: page-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Facebook Page ID
+    Fields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
+  securitySchemes:
+    PageAccessToken:
+      type: oauth2
+      description: 'Page access token obtained via Facebook Login / Meta Business
+
+        Login with leads_retrieval, pages_show_list, and
+
+        pages_manage_ads permissions.
+
+        '
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
+          tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
+          scopes:
+            leads_retrieval: Read leads from lead ad forms
+            pages_show_list: List Pages the user manages
+            pages_manage_ads: Manage ads associated with a Page
