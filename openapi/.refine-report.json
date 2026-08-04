@@ -1,0 +1,24 @@
+{
+  "provider": "facebook-lead-ads",
+  "sources": [
+    "facebook-lead-ads-bulk-leads-api-openapi.yml",
+    "facebook-lead-ads-leadgen-forms-api-openapi.yml",
+    "facebook-lead-ads-leads-api-openapi.yml",
+    "facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml",
+    "facebook-lead-ads-subscribed-apps-api-openapi.yml",
+    "facebook-lead-ads-subscriptions-api-openapi.yml"
+  ],
+  "outputs": [
+    "facebook-lead-ads-bulk-leads-api-openapi.yml",
+    "facebook-lead-ads-leadgen-forms-api-openapi.yml",
+    "facebook-lead-ads-leads-api-openapi.yml",
+    "facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml",
+    "facebook-lead-ads-subscribed-apps-api-openapi.yml",
+    "facebook-lead-ads-subscriptions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
