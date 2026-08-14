@@ -35,7 +35,7 @@ tags:
 url: >-
   https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/apis.yml
 created: '2026-05-11'
-modified: '2026-05-11'
+modified: '2026-08-14'
 specificationVersion: '0.19'
 apis:
 - aid: facebook-lead-ads:graph-api
@@ -60,7 +60,7 @@ apis:
   - type: Retrieving Leads
     url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
   - type: Webhooks
-    url: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/quickstart-webhook
+    url: https://developers.facebook.com/documentation/ads-commerce/marketing-api/guides/lead-ads/quickstart/webhooks-integration
 - aid: facebook-lead-ads:facebook-lead-ads-bulk-leads-api
   name: Facebook Lead Ads Bulk Leads API
   description: The Bulk Leads API from Facebook Lead Ads — 1 operation(s) for bulk leads.
@@ -71,6 +71,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/facebook-lead-ads-bulk-leads-api-openapi.yml
+  - type: Overlay
+    url: overlays/facebook-lead-ads-bulk-leads-api-overlay.yaml
 - aid: facebook-lead-ads:facebook-lead-ads-leadgen-forms-api
   name: Facebook Lead Ads Leadgen Forms API
   description: The Leadgen Forms API from Facebook Lead Ads — 1 operation(s) for leadgen forms.
@@ -81,6 +83,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/facebook-lead-ads-leadgen-forms-api-openapi.yml
+  - type: Overlay
+    url: overlays/facebook-lead-ads-leadgen-forms-api-overlay.yaml
 - aid: facebook-lead-ads:facebook-lead-ads-leads-api
   name: Facebook Lead Ads Leads API
   description: The Leads API from Facebook Lead Ads — 2 operation(s) for leads.
@@ -91,6 +95,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/facebook-lead-ads-leads-api-openapi.yml
+  - type: Overlay
+    url: overlays/facebook-lead-ads-leads-api-overlay.yaml
 - aid: facebook-lead-ads:facebook-lead-ads-meta-marketing-api-lead-ads-api
   name: Facebook Lead Ads Meta Marketing API Lead Ads API
   description: >-
@@ -103,6 +109,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml
+  - type: Overlay
+    url: overlays/facebook-lead-ads-meta-marketing-api-lead-ads-api-overlay.yaml
 - aid: facebook-lead-ads:facebook-lead-ads-subscribed-apps-api
   name: Facebook Lead Ads Subscribed Apps API
   description: The Subscribed Apps API from Facebook Lead Ads — 1 operation(s) for subscribed apps.
@@ -113,6 +121,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/facebook-lead-ads-subscribed-apps-api-openapi.yml
+  - type: Overlay
+    url: overlays/facebook-lead-ads-subscribed-apps-api-overlay.yaml
 - aid: facebook-lead-ads:facebook-lead-ads-subscriptions-api
   name: Facebook Lead Ads Subscriptions API
   description: The Subscriptions API from Facebook Lead Ads — 1 operation(s) for subscriptions.
@@ -123,6 +133,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/facebook-lead-ads-subscriptions-api-openapi.yml
+  - type: Overlay
+    url: overlays/facebook-lead-ads-subscriptions-api-overlay.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/facebook-lead-ads-agentic-access.yml
@@ -138,7 +150,7 @@ common:
     url: https://developers.facebook.com
   - type: Marketing API
     url: https://developers.facebook.com/docs/marketing-api/
-  - type: Signup
+  - type: SignUp
     url: https://developers.facebook.com/async/registration/
   - type: App Dashboard
     url: https://developers.facebook.com/apps/
@@ -146,6 +158,69 @@ common:
     url: https://developers.facebook.com/support/
   - type: LlmsText
     url: https://developers.facebook.com/llms.txt
+  - type: Packages
+    url: packages/facebook-lead-ads-packages.yml
+  - type: SDKs
+    url: packages/facebook-lead-ads-packages.yml
+  - type: WellKnown
+    url: well-known/facebook-lead-ads-well-known.yml
+  - type: MCPServer
+    url: mcp/facebook-lead-ads-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/facebook-lead-ads-tool-crosswalk.yml
+  - type: LLMsTxt
+    url: llms/facebook-lead-ads-llms.txt
+  - type: Conformance
+    url: conformance/facebook-lead-ads-conformance.yml
+  - type: ErrorCatalog
+    url: errors/facebook-lead-ads-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/facebook-lead-ads-lifecycle.yml
+  - type: StatusPage
+    url: https://metastatus.com/marketing-api
+  - type: Deprecation
+    url: https://developers.facebook.com/docs/graph-api/guides/versioning
+  - type: ChangeLog
+    url: changelog/facebook-lead-ads-changelog.yml
+  - type: DomainSecurity
+    url: security/facebook-lead-ads-domain-security.yml
+  - type: VulnerabilityDisclosure
+    url: security/facebook-lead-ads-vulnerability-disclosure.yml
+  - type: Security
+    url: https://bugbounty.meta.com/
+  - type: Sandbox
+    url: sandbox/facebook-lead-ads-sandbox.yml
+  - type: Conventions
+    url: conventions/facebook-lead-ads-conventions.yml
+  - type: CLI
+    url: cli/facebook-lead-ads-cli.yml
+  - type: DataModel
+    url: data-model/facebook-lead-ads-data-model.yml
+  - type: Webhooks
+    url: asyncapi/facebook-lead-ads-webhooks.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: RateLimits
+    url: rate-limits/facebook-lead-ads-rate-limits.yml
+  - type: Plans
+    url: plans/facebook-lead-ads-plans-pricing.yml
+  - type: APIReference
+    url: https://developers.facebook.com/docs/marketing-api/reference/
+  - type: GettingStarted
+    url: https://developers.facebook.com/docs/marketing-api/get-started
+  - type: Blog
+    url: https://developers.facebook.com/blog/
+  - type: GitHubOrganization
+    url: https://github.com/facebook
+  - type: TermsOfService
+    url: https://developers.facebook.com/terms/
+  - type: PrivacyPolicy
+    url: https://www.facebook.com/privacy/policy/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-14'
+  status: enriched
+  artifacts_added: 29
+  pass: local-v1
