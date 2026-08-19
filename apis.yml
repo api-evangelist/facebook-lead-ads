@@ -36,7 +36,7 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/apis.yml
 created: '2026-05-11'
 modified: '2026-08-14'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: facebook-lead-ads:graph-api
   name: Meta Marketing API - Lead Ads
