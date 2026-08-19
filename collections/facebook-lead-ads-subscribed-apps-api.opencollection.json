@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Meta Marketing API - Lead Ads Bulk Leads Subscribed Apps API",
+    "version": "v22.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.facebook.com/v22.0/dialog/oauth",
+      "accessTokenUrl": "https://graph.facebook.com/v22.0/oauth/access_token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscribed Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Subscribe an app to a Page for leadgen webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v22.0/:page-id/subscribed_apps",
+            "params": [
+              {
+                "name": "page-id",
+                "value": "",
+                "type": "path",
+                "description": "Facebook Page ID"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "subscribed_fields",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Subscribe an app to a Page for leadgen webhooks"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,131 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/docs/graph-api/overview/rate-limiting/
+docs: https://developers.facebook.com/docs/graph-api/overview/rate-limiting/
+also: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+note: >-
+  Meta publishes rate limits as FORMULAS, not fixed numbers — the quota scales with the
+  size of the thing you are operating on. For Facebook Lead Ads the governing bucket is
+  the LeadGen business-use-case limit, which scales with leads generated: a form that has
+  captured few leads has a correspondingly small call budget, which is the opposite of the
+  usual "big customer, big quota" intuition and the single most important operational fact
+  about this API.
+limits:
+  - id: leadgen-buc
+    scope: business use case — LeadGen
+    applies_to: Lead ads leads retrieval (this product)
+    window: 24 hours
+    formula: Calls within 24 hours = 4800 * Leads Generated
+    header: X-Business-Use-Case-Usage
+    error_code: 80005
+    primary: true
+  - id: pages-buc
+    scope: business use case — Pages (Page or System User access token)
+    applies_to: Page-scoped edges such as /{page-id}/leadgen_forms and /{page-id}/subscribed_apps
+    window: 24 hours
+    formula: Calls within 24 hours = 4800 * Number of Engaged Users
+    header: X-Business-Use-Case-Usage
+    error_code: 80001
+  - id: pages-buc-user-token
+    scope: business use case — Pages (User access token)
+    window: 24 hours
+    error_code: 32
+    header: X-Business-Use-Case-Usage
+  - id: ads-management-standard
+    scope: business use case — Ads Management, Standard Access
+    window: 1 hour
+    formula: Calls within one hour = 300 + 40 * Number of Active ads
+    header: X-Business-Use-Case-Usage
+    error_code: 80004
+    error_subcode: 2446079
+  - id: ads-management-advanced
+    scope: business use case — Ads Management, Advanced Access
+    window: 1 hour
+    formula: Calls within one hour = 100000 + 40 * Number of Active ads
+    header: X-Business-Use-Case-Usage
+    error_code: 80004
+    error_subcode: 2446079
+  - id: ads-insights-standard
+    scope: business use case — Ads Insights, Standard Access
+    window: 1 hour
+    formula: Calls within one hour = 600 + 400 * Number of Active ads - 0.001 * User Errors
+    header: X-Business-Use-Case-Usage
+    error_code: 80000
+    error_subcode: 2446079
+    note: >-
+      User errors REDUCE the quota. Sloppy clients are penalised, which makes error
+      handling a rate-limit concern on this platform.
+  - id: ads-insights-advanced
+    scope: business use case — Ads Insights, Advanced Access
+    window: 1 hour
+    formula: Calls within one hour = 190000 + 400 * Number of Active ads - 0.001 * User Errors
+    header: X-Business-Use-Case-Usage
+    error_code: 80000
+    error_subcode: 2446079
+  - id: platform-app
+    scope: per app (platform rate limit)
+    window: rolling 1 hour
+    formula: Calls within one hour = 200 * Number of Users
+    users_basis: daily active users (weekly/monthly used during low-activity periods)
+    header: X-App-Usage
+    error_code: 4
+  - id: platform-user
+    scope: per user (platform rate limit)
+    window: rolling 1 hour
+    limit: undisclosed
+    note: Meta does not publish the per-user value; it is shared across every app the user uses.
+    header: X-App-Usage
+    error_code: 17
+  - id: ad-account-legacy
+    scope: per ad account (Ads API v3.3 and older)
+    header: X-Ad-Account-Usage
+    error_code: 17
+    error_subcode: 2446079
+    note: Legacy surface; retained because older SDK pins still hit it.
+headers:
+  - name: X-App-Usage
+    encoding: JSON object
+    fields:
+      call_count: percentage of calls used within the rolling one-hour window
+      total_cputime: percentage of the CPU-time allotment used
+      total_time: percentage of the total processing-time allotment used
+    note: Any field reaching 100 throttles the app.
+  - name: X-Business-Use-Case-Usage
+    encoding: JSON object keyed by business ID
+    fields:
+      business-id: the associated business identifier
+      call_count: percentage of allowed calls used
+      total_cputime: CPU-time percentage
+      total_time: processing-time percentage
+      type: the rate-limit category applied (e.g. leadgen, pages, ads_management)
+      estimated_time_to_regain_access: minutes until throttling stops
+      ads_api_access_tier: 'access tier — ads_insights / ads_management only'
+    note: >-
+      estimated_time_to_regain_access is the closest thing this API has to Retry-After.
+      It is inside a JSON header value, not a standard header, so a generic HTTP client
+      will not find it.
+  - name: X-Ad-Account-Usage
+    encoding: JSON object
+    fields:
+      acc_id_util_pct: percentage of calls used before the limit is reached
+      reset_time_duration: seconds until the rate limit resets
+      ads_api_access_tier: development_access | standard_access
+    note: Ads API v3.3 and older.
+retry_after_header: false
+rate_limit_standard_headers: false
+standard_headers_note: >-
+  Meta implements neither the draft IETF RateLimit-* headers nor Retry-After. Every signal
+  is a proprietary X-* header carrying a JSON document, so an agent must parse the header
+  VALUE as JSON to get the remaining budget.
+status_on_exhaustion:
+  http_status: 400
+  body_type: OAuthException
+  note: >-
+    Throttling does NOT return 429. It returns HTTP 400 with the throttle encoded in
+    error.code. A client that keys retry behaviour on 429 will never back off against
+    this API.
+lead_retrieval_note: >-
+  The lead-ads retrieval guide states the bulk-read limit as "200 multiplied by 24 then
+  multiplied by the number of leads created in the past 90 days" — the same 4800 x leads
+  formula expressed per-90-day-window.
+limit_count: 10

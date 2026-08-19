@@ -1,0 +1,50 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Meta Marketing API - Lead Ads Bulk Leads API
+  version: 1.0.0
+extends: openapi/facebook-lead-ads-bulk-leads-api-openapi.yml
+x-generated: '2026-08-14'
+x-method: generated
+x-source: Derived from the artifacts in all/facebook-lead-ads/ — the original OpenAPI is never mutated.
+actions:
+- target: $.info
+  description: Record the API Evangelist enrichment provenance and the version-currency finding.
+  update:
+    x-apievangelist-enriched: '2026-08-14'
+    x-apievangelist-slug: facebook-lead-ads
+    x-graph-api-version-targeted: v22.0
+    x-graph-api-version-current: v26.0
+    x-graph-api-deprecation-signal: Live API returns x-ad-api-version-warning for v22.0 (probed 2026-08-14).
+- target: $.info
+  description: Point at the derived runtime-semantics artifacts the spec itself does not carry.
+  update:
+    x-artifacts:
+      conventions: conventions/facebook-lead-ads-conventions.yml
+      errors: errors/facebook-lead-ads-problem-types.yml
+      rate-limits: rate-limits/facebook-lead-ads-rate-limits.yml
+      lifecycle: lifecycle/facebook-lead-ads-lifecycle.yml
+      authentication: authentication/facebook-lead-ads-authentication.yml
+      scopes: scopes/facebook-lead-ads-scopes.yml
+      webhooks: asyncapi/facebook-lead-ads-webhooks.yml
+      data-model: data-model/facebook-lead-ads-data-model.yml
+- target: $.servers
+  description: Note that the pinned server targets a Graph API version Meta flags as deprecated for the
+    Ads API.
+  update:
+  - url: https://graph.facebook.com/v22.0
+    description: Meta Graph API (v22.0 — released 2025-01-21, usable until 2027-05-20; the live Ads API
+      returns x-ad-api-version-warning for this version).
+- target: $.components.securitySchemes.PageAccessToken
+  description: Add the permissions the docs require that the spec omits.
+  update:
+    x-additional-permissions-documented:
+    - ads_management
+    - pages_read_engagement
+    - pages_manage_metadata
+    x-permissions-docs: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+- target: $.paths['/{form-id}/bulk_leads'].get
+  description: Attach the governing rate-limit bucket and the error contract absent from the spec.
+  update:
+    x-rate-limit-bucket: LeadGen business use case (4800 * leads generated / 24h, error code 80005)
+    x-error-catalog: errors/facebook-lead-ads-problem-types.yml
+    x-idempotent: true

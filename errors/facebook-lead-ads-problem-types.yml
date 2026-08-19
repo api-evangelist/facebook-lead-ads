@@ -1,0 +1,165 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://developers.facebook.com/docs/graph-api/guides/error-handling/ and
+  https://developers.facebook.com/docs/graph-api/overview/rate-limiting/, enriched with
+  error bodies observed live on https://graph.facebook.com during this pass.
+format: proprietary
+rfc9457: false
+note: >-
+  DERIVED FROM DOCS, NOT FROM THE SPEC: none of the OpenAPI documents in openapi/ declares
+  a single 4xx or 5xx response, so nothing could be derived from them. That is itself the
+  finding — the contract in this repo describes only happy paths. The Graph API's real
+  error contract is documented separately and is code-driven, not status-driven: almost
+  every application error arrives as HTTP 400 with the cause encoded in error.code and
+  error.type.
+envelope:
+  wrapper: error
+  fields:
+    - {name: message, type: string, description: Human-readable description.}
+    - {name: type, type: string, description: 'Error class — e.g. OAuthException, GraphMethodException.'}
+    - {name: code, type: integer, description: Numeric error identifier — the primary discriminator.}
+    - {name: error_subcode, type: integer, required: false, description: Narrows the cause.}
+    - {name: error_user_title, type: string, required: false, description: Dialog title for end-user display.}
+    - {name: error_user_msg, type: string, required: false, description: End-user-facing message in the request locale.}
+    - {name: fbtrace_id, type: string, description: Support/debug identifier — log it on every failure.}
+  observed:
+    fetched: '2026-08-14'
+    url: https://graph.facebook.com/openapi.yaml
+    http_status: 400
+    body:
+      error:
+        message: >-
+          Unsupported get request. Object with ID 'openapi.yaml' does not exist, cannot be
+          loaded due to missing permissions, or does not support this operation.
+        type: GraphMethodException
+        code: 100
+        error_subcode: 33
+        fbtrace_id: ATtUVDXqQk1qdsrYSqtuddJ
+problems:
+  - code: 1
+    type: API Unknown
+    title: Unknown error
+    remediation: Possibly a temporary issue. Retry with backoff; verify the endpoint exists.
+    retryable: true
+  - code: 2
+    type: API Service
+    title: Service temporarily unavailable
+    remediation: Temporary issue due to downtime. Retry with backoff.
+    retryable: true
+  - code: 3
+    type: API Method
+    title: Method not supported for this app
+    remediation: Verify the app has the capability/permission for this method.
+    retryable: false
+  - code: 4
+    type: API Too Many Calls
+    title: Application-level rate limit reached
+    remediation: Back off; inspect X-App-Usage. See rate-limits/.
+    retryable: true
+  - code: 10
+    type: OAuthException
+    title: Permission denied
+    remediation: >-
+      The app or user lacks a required permission. For lead retrieval this is normally
+      leads_retrieval, pages_show_list, pages_manage_ads or ads_management.
+    retryable: false
+  - code: 17
+    type: API User Too Many Calls
+    title: User-level rate limit reached
+    remediation: Back off. Subcode 2446079 indicates the v3.3-era Ads API user throttle.
+    retryable: true
+  - code: 32
+    type: Page Request Limit Reached
+    title: Pages API rate limit reached (user token)
+    remediation: Back off; inspect X-Business-Use-Case-Usage.
+    retryable: true
+  - code: 100
+    type: GraphMethodException
+    title: Unsupported request / unknown object or field
+    remediation: >-
+      The object ID does not exist, is not visible to this token, or the edge does not
+      support this method. Subcode 33 specifically means the object is not reachable with
+      the current token. Verify the form-id / lead-id / page-id and the granted permissions.
+    retryable: false
+    source_operations:
+      - openapi/facebook-lead-ads-leadgen-forms-api-openapi.yml#listLeadGenForms
+      - openapi/facebook-lead-ads-leads-api-openapi.yml#listLeadsForForm
+      - openapi/facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml#getLead
+  - code: 102
+    type: OAuthException
+    title: Session/access token invalid
+    remediation: >-
+      Login status or access token has expired, been revoked, or is otherwise invalid.
+      Re-run the Facebook Login / Meta Business Login flow and obtain a new Page access token.
+    retryable: false
+  - code: 190
+    type: OAuthException
+    title: Access token expired
+    remediation: Obtain a new access token. Subcodes 458-492 narrow the session cause.
+    retryable: false
+  - code: 200
+    type: OAuthException
+    title: Permissions error
+    remediation: >-
+      Covers the 200-299 band. The token lacks the permission the edge requires. For leads,
+      request leads_retrieval + pages_show_list + pages_manage_ads (and ads_management +
+      pages_read_engagement for ad-level fields).
+    retryable: false
+  - code: 368
+    type: OAuthException
+    title: Temporarily blocked for policy violations
+    remediation: Wait and retry the operation.
+    retryable: true
+  - code: 506
+    type: OAuthException
+    title: Duplicate post
+    remediation: Modify the content before retrying.
+    retryable: false
+  - code: 613
+    type: OAuthException
+    title: Custom-level rate limit reached
+    remediation: >-
+      Back off. Subcode 1996 indicates an inconsistent API request volume rather than a
+      fixed quota.
+    retryable: true
+  - code: 2500
+    type: OAuthException
+    title: Unknown path components
+    remediation: The requested path is not a Graph API edge. Check the URL.
+    retryable: false
+    observed: true
+  - code: 80000
+    type: Business Use Case rate limit — Ads Insights
+    error_subcode: 2446079
+    title: Ads Insights BUC rate limit reached
+    remediation: Inspect X-Business-Use-Case-Usage.estimated_time_to_regain_access and wait.
+    retryable: true
+  - code: 80001
+    type: Business Use Case rate limit — Pages
+    title: Pages BUC rate limit reached (Page or System User token)
+    remediation: Inspect X-Business-Use-Case-Usage and wait.
+    retryable: true
+  - code: 80004
+    type: Business Use Case rate limit — Ads Management
+    error_subcode: 2446079
+    title: Ads Management BUC rate limit reached
+    remediation: Inspect X-Business-Use-Case-Usage and wait.
+    retryable: true
+  - code: 80005
+    type: Business Use Case rate limit — LeadGen
+    title: LeadGen BUC rate limit reached
+    remediation: >-
+      THE ONE THAT MATTERS FOR THIS PRODUCT. The LeadGen quota is
+      4800 x (leads generated) calls per 24 hours, so a low-volume form has a
+      correspondingly small budget. Inspect X-Business-Use-Case-Usage and wait.
+    retryable: true
+    primary_for_this_product: true
+summary:
+  problems: 19
+  derived_from_spec: 0
+  from_docs: 18
+  observed_live: 2
+  spec_gap: >-
+    0 of 9 operations in openapi/ declare any 4xx or 5xx response. Every error semantic
+    above is invisible to a client generated from the spec alone.

@@ -1,0 +1,122 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  openapi/*.yml ($ref links, path parameters and id-reference fields), enriched from
+  https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+note: >-
+  The lead-ads entity graph is small and almost entirely id-linked rather than $ref-linked:
+  the Graph API expresses relationships as path segments (/{page-id}/leadgen_forms,
+  /{form-id}/leads) and as opaque id fields on the payload (ad_id, form_id), not as nested
+  schemas. Only one schema in the spec, Lead, carries a body worth modelling; every other
+  edge returns the generic GraphCollection envelope. Relationships below are derived from
+  the path structure and the documented lead field set.
+id_convention:
+  format: numeric string
+  prefixed: false
+  note: >-
+    Graph API object IDs are bare numeric strings with no type prefix, so an ID alone does
+    not tell an agent what kind of object it addresses — a form-id and a lead-id are
+    indistinguishable by shape. The edge you call is the only type discriminator.
+entities:
+  - name: Page
+    id_param: page-id
+    description: The Facebook Page that owns lead generation forms and grants the access token.
+    schema: null
+    operations: [listLeadGenForms, createLeadGenForm, pageSubscribedApps]
+  - name: LeadGenForm
+    id_param: form-id
+    description: An instant lead-generation form attached to a Facebook or Instagram lead ad.
+    schema: null
+    fields_documented: [name, questions, privacy_policy, follow_up_action_url, locale]
+    operations: [listLeadGenForms, createLeadGenForm, getLeadGenForm, listLeadsForForm, bulkDownloadLeads]
+  - name: Lead
+    id_param: lead-id
+    description: A single submitted lead record.
+    schema: openapi/facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml#/components/schemas/Lead
+    fields:
+      - {name: id, type: string}
+      - {name: created_time, type: string, format: date-time}
+      - {name: ad_id, type: string, reference: Ad}
+      - {name: form_id, type: string, reference: LeadGenForm}
+      - {name: field_data, type: array, description: 'Array of {name, values[]} answer pairs.'}
+      - {name: custom_disclaimer_responses, type: array, documented_only: true}
+    operations: [getLead, listLeadsForForm, listLeadsForAd, bulkDownloadLeads]
+  - name: Ad
+    id_param: ad-id
+    description: >-
+      The ad that produced a lead. Not modelled in this repo's spec — it belongs to the
+      wider Marketing API — but it is a first-class reference from Lead.
+    schema: null
+    operations: [listLeadsForAd]
+  - name: App
+    id_param: app-id
+    description: The Meta app that receives leadgen webhook notifications.
+    schema: null
+    operations: [subscribeAppWebhook, pageSubscribedApps]
+  - name: Subscription
+    description: >-
+      The app's webhook registration — object=page, fields including "leadgen",
+      callback_url and verify_token.
+    schema: null
+    fields: [object, callback_url, fields, verify_token]
+    operations: [subscribeAppWebhook]
+  - name: GraphCollection
+    kind: envelope
+    description: >-
+      The generic list envelope every collection edge returns — {data[], paging{cursors,
+      next, previous}}. Not a domain entity.
+    schema: openapi/facebook-lead-ads-leads-api-openapi.yml#/components/schemas/GraphCollection
+relationships:
+  - from: Page
+    to: LeadGenForm
+    type: has_many
+    via: /{page-id}/leadgen_forms
+    derived_from: path
+  - from: LeadGenForm
+    to: Lead
+    type: has_many
+    via: /{form-id}/leads
+    derived_from: path
+  - from: Lead
+    to: LeadGenForm
+    type: belongs_to
+    via: form_id
+    derived_from: field
+  - from: Ad
+    to: Lead
+    type: has_many
+    via: /{ad-id}/leads
+    derived_from: path
+  - from: Lead
+    to: Ad
+    type: belongs_to
+    via: ad_id
+    derived_from: field
+  - from: LeadGenForm
+    to: Lead
+    type: has_many
+    via: /{form-id}/bulk_leads
+    derived_from: path
+    note: Bulk export projection of the same has_many.
+  - from: App
+    to: Subscription
+    type: has_many
+    via: /{app-id}/subscriptions
+    derived_from: path
+  - from: Page
+    to: App
+    type: has_many
+    via: /{page-id}/subscribed_apps
+    derived_from: path
+    note: Join edge — a Page subscribes an App to its leadgen events.
+summary:
+  entities: 7
+  domain_entities: 6
+  relationships: 8
+  schemas_in_spec: 2
+  derived_from_path: 5
+  derived_from_field: 2
+  gap: >-
+    LeadGenForm has no response schema anywhere in the spec — getLeadGenForm declares a 200
+    with a description and no content. A client cannot learn the form shape from the
+    contract.

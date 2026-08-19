@@ -1,0 +1,85 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/ads-cli-overview
+docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/setup/get-started
+command_reference: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-cli/command-reference
+scope_note: >-
+  Ads CLI is Meta's first-party command-line client for the Marketing API — a sibling of the
+  Ads MCP server in the "Meta ads AI connectors" family. Facebook Lead Ads is an endpoint
+  family of that same Marketing API. Meta publishes no lead-ads-specific CLI, and no
+  documented command group covers leadgen forms or lead retrieval, so this is recorded as
+  the provider's CLI surface with that limitation stated rather than as a lead-ads tool.
+name: Ads CLI
+binary: meta
+description: '"Ads CLI is a command-line tool for managing Meta advertising from your terminal."'
+install:
+  - method: pip
+    command: pip install meta-ads
+    registry: pypi
+    package: meta-ads
+    url: https://pypi.org/project/meta-ads/
+    version: 1.1.0
+    published: '2026-06-17'
+    note: >-
+      Install command taken verbatim from Meta's own get-started page. The PyPI record
+      itself carries no author, homepage or project URL, so the package page alone does not
+      establish first-party provenance — the developers.facebook.com documentation does.
+authentication:
+  model: system-user access token
+  statement: >-
+    "Ads CLI authenticates with a Meta system user access token and calls the Marketing API
+    on your behalf."
+  setup:
+    - Create a system user with the Admin role in Meta Business Suite.
+    - Assign assets (ad accounts, pages, pixels, catalogs) to that system user.
+    - Add the system user as an App Admin in the Meta for Developers app.
+    - Generate an access token with the scopes below.
+  scopes:
+    - business_management
+    - ads_management
+    - pages_show_list
+    - pages_read_engagement
+    - pages_manage_ads
+    - catalog_management
+    - read_insights
+  config:
+    file: .env
+    variables:
+      - ACCESS_TOKEN
+      - AD_ACCOUNT_ID
+command_form: meta ads <resource> <action>
+command_groups:
+  - group: auth
+    example: meta auth status
+    description: Inspect the authenticated identity and token state.
+  - group: campaign
+    example: meta ads campaign list
+    description: Create, list, update and delete ad campaigns.
+  - group: adset
+    description: Manage ad sets — targeting and conversion tracking.
+  - group: ad
+    description: Manage individual ads.
+  - group: creative
+    description: Manage ad creative assets.
+  - group: insights
+    example: meta ads insights get --fields spend,impressions,ctr,cpc
+    description: Query performance data with custom metrics, date ranges and breakdowns.
+  - group: catalog
+    description: Manage product catalogs and items for catalog ads.
+  - group: dataset
+    description: Manage conversion tracking pixels/datasets.
+  - group: page
+    example: meta ads page list
+    description: Page and ad-account management.
+lead_ads_coverage:
+  covered: false
+  finding: >-
+    No documented command group addresses leadgen forms, lead retrieval or bulk lead
+    export. The nine operations in this repo's openapi/ have no CLI equivalent.
+automation:
+  exit_codes: 0-5
+  env_file: .env
+  note: Consistent exit codes and .env support are documented as the automation contract.
+related:
+  mcp: mcp/facebook-lead-ads-mcp.yml
+  packages: packages/facebook-lead-ads-packages.yml

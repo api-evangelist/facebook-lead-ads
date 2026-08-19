@@ -1,0 +1,123 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://developers.facebook.com/docs/graph-api/guides/error-handling/,
+  https://developers.facebook.com/docs/graph-api/overview/rate-limiting/,
+  https://developers.facebook.com/docs/graph-api/guides/versioning,
+  https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving,
+  plus live response-header observation on https://graph.facebook.com/v22.0/
+note: >-
+  Cross-cutting request/response semantics for the Meta Graph API surface that Facebook
+  Lead Ads sits on. Everything below is either documented by Meta or observed on a live
+  response. The idempotency section is deliberately a NEGATIVE finding — see below.
+authentication:
+  style: oauth2-bearer
+  token_type: Page access token (OAuth 2.0)
+  transport:
+    - 'Authorization: Bearer <token>'
+    - '?access_token=<token> query parameter (also supported)'
+  challenge_header_observed: 'www-authenticate: OAuth "Facebook Platform" "invalid_request" "..."'
+  detail: authentication/facebook-lead-ads-authentication.yml
+  scopes: scopes/facebook-lead-ads-scopes.yml
+idempotency:
+  supported: false
+  header: null
+  finding: >-
+    Meta publishes NO idempotency-key contract for the Graph API. There is no
+    Idempotency-Key header, no client-supplied request identifier that de-duplicates a
+    retried write, and no documented replay window. Writes in this surface
+    (createLeadGenForm, subscribeAppWebhook, pageSubscribedApps) are not safe to blindly
+    retry. The retry guidance Meta does publish — retry on error codes 1, 2, 4, 17, 341,
+    368 — is about transient failures, and carries no de-duplication guarantee, so a
+    retried createLeadGenForm can create a second form.
+  agent_guidance: >-
+    An agent must treat every non-GET operation here as at-most-once. Read back the
+    resulting object (getLeadGenForm / listLeadGenForms) before retrying a write.
+pagination:
+  style: cursor
+  request_params:
+    - {name: limit, in: query, description: Page size.}
+    - {name: after, in: query, description: Cursor returned in paging.cursors.after.}
+    - {name: before, in: query, description: Cursor returned in paging.cursors.before.}
+  response_fields:
+    envelope: data
+    paging: paging
+    cursors: paging.cursors.before / paging.cursors.after
+    next: paging.next
+    previous: paging.previous
+  schema: openapi/facebook-lead-ads-leads-api-openapi.yml#/components/schemas/GraphCollection
+  also_supported: time-based and offset paging on some edges
+field_selection:
+  supported: true
+  param: fields
+  style: comma-separated field list, with nested field expansion via field{subfield,subfield}
+  note: >-
+    Sparse fieldsets are MANDATORY in practice on this API — the Graph API returns a
+    minimal default field set and an agent that omits `fields` will silently receive
+    fewer properties than it expects, not an error.
+filtering:
+  supported: true
+  param: filtering
+  encoding: JSON-encoded array of filter objects
+  operators_documented: [GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL]
+  common_field: time_created
+  docs: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+request_tracing:
+  headers_returned:
+    - {name: x-fb-request-id, observed: true, description: Per-request identifier.}
+    - {name: x-fb-trace-id, observed: true, description: Trace identifier.}
+    - {name: x-fb-debug, observed: true, description: Opaque debug payload.}
+  body_field: error.fbtrace_id
+  note: >-
+    fbtrace_id appears in the error envelope and is the identifier Meta support asks for.
+    Capture it on every 4xx/5xx.
+versioning:
+  style: uri-path
+  response_header: facebook-api-version
+  detail: lifecycle/facebook-lead-ads-lifecycle.yml
+error_envelope:
+  format: proprietary
+  rfc9457: false
+  content_type: application/json
+  shape:
+    error:
+      message: string — human-readable description
+      type: string — error class, e.g. OAuthException, GraphMethodException
+      code: integer — numeric error identifier
+      error_subcode: integer — optional, narrows the cause
+      error_user_title: string — optional, dialog title for end-user display
+      error_user_msg: string — optional, end-user-facing message in the request locale
+      fbtrace_id: string — support/debug identifier
+  observed_example:
+    error:
+      message: 'Unknown path components: /oauth-authorization-server'
+      type: OAuthException
+      code: 2500
+      fbtrace_id: AJnKtg_krNU7jJi1iB9xg1H
+  http_status_note: >-
+    The Graph API answers most application errors with HTTP 400 and encodes the real cause
+    in error.code / error.type. Status-code-only handling is not sufficient.
+  detail: errors/facebook-lead-ads-problem-types.yml
+rate_limit_signaling:
+  headers:
+    - X-App-Usage
+    - X-Business-Use-Case-Usage
+    - X-Ad-Account-Usage
+  retry_after: false
+  status_on_exhaustion: 400 with error.code 4 / 17 / 32 / 613 (platform) or 80000-80014 (business use case)
+  detail: rate-limits/facebook-lead-ads-rate-limits.yml
+webhooks:
+  verification: 'GET with hub.mode=subscribe, hub.challenge, hub.verify_token — echo hub.challenge'
+  signature_header: X-Hub-Signature-256
+  signature_algorithm: HMAC-SHA256 over the raw payload using the app secret, prefixed "sha256="
+  expected_response: 200 OK
+  retry_window: retries with decreasing frequency for up to 36 hours
+  detail: asyncapi/facebook-lead-ads-webhooks.yml
+metadata:
+  supported: false
+  note: No arbitrary key/value metadata field on lead or leadgen-form objects.
+batching:
+  supported: true
+  mechanism: >-
+    Graph API batch requests (POST to the Graph API root with a `batch` parameter) and
+    field-expansion in a single call. Not modeled in openapi/.

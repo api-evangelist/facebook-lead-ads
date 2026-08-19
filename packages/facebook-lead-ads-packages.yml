@@ -1,0 +1,88 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  Public registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org,
+  packagist.org, search.maven.org, azuresearch-usnc.nuget.org), queried 2026-08-14.
+note: >-
+  Facebook Lead Ads is an endpoint family of the Meta Marketing API (Graph API), and
+  Meta does not ship a lead-ads-specific client library. The first-party clients are
+  the Meta Business SDKs — one per language, published from github.com/facebook,
+  versioned in lockstep with the Graph API version (SDK major = Graph API version,
+  e.g. 26.x = Graph API v26.0). Every entry below is first-party (published from the
+  facebook GitHub org and linked from developers.facebook.com/docs/business-sdk).
+  Currency finding: the Python, PHP and Ruby SDKs track the current Graph API version
+  (26.0, released within the last two weeks); the Node.js SDK is two major versions
+  behind (24.0.1, 2025-11-21) and the Java SDK is three behind (23.0.0, 2025-06-17).
+  No first-party .NET/NuGet or Go client exists — NuGet search returns only
+  third-party packages.
+packages:
+  - language: python
+    registry: pypi
+    name: facebook_business
+    url: https://pypi.org/project/facebook_business/
+    install: pip install facebook_business
+    source: https://github.com/facebook/facebook-python-business-sdk
+    official: true
+    version: 26.0.0
+    published: '2026-08-06'
+    note: Tracks Graph API v26.0 — current.
+  - language: php
+    registry: packagist
+    name: facebook/php-business-sdk
+    url: https://packagist.org/packages/facebook/php-business-sdk
+    install: composer require facebook/php-business-sdk
+    source: https://github.com/facebook/facebook-php-business-sdk
+    official: true
+    version: 26.0.0
+    published: '2026-08-06'
+    note: Tracks Graph API v26.0 — current.
+  - language: ruby
+    registry: rubygems
+    name: facebookbusiness
+    url: https://rubygems.org/gems/facebookbusiness
+    install: gem install facebookbusiness
+    source: https://github.com/facebook/facebook-ruby-business-sdk
+    official: true
+    version: 26.0.0
+    published: '2026-08-13'
+    note: Tracks Graph API v26.0 — current.
+  - language: javascript
+    registry: npm
+    name: facebook-nodejs-business-sdk
+    url: https://www.npmjs.com/package/facebook-nodejs-business-sdk
+    install: npm install facebook-nodejs-business-sdk
+    source: https://github.com/facebook/facebook-nodejs-business-sdk
+    official: true
+    version: 24.0.1
+    published: '2025-11-21'
+    note: >-
+      Two Graph API majors behind the live API (v26.0 is current, and the Graph API
+      flags v22.0/v23.0 as deprecated on the wire). A consumer pinning this SDK is
+      pinned to the v24.0 surface.
+  - language: java
+    registry: maven
+    name: com.facebook.business.sdk:facebook-java-business-sdk
+    url: https://central.sonatype.com/artifact/com.facebook.business.sdk/facebook-java-business-sdk
+    install: 'implementation "com.facebook.business.sdk:facebook-java-business-sdk:23.0.0"'
+    source: https://github.com/facebook/facebook-java-business-sdk
+    official: true
+    version: 23.0.0
+    published: '2025-06-17'
+    note: >-
+      Three Graph API majors behind (v26.0 is current). Pinned to a Graph API version
+      the Ads API now returns an x-ad-api-version-warning deprecation header for.
+absent:
+  - registry: nuget
+    checked: '2026-08-14'
+    result: >-
+      No first-party Meta/Facebook Business SDK. A search for "facebook business sdk"
+      returns only third-party packages (Xamarin.CloudRail, OmniSocials).
+  - registry: pkg.go.dev
+    checked: '2026-08-14'
+    result: No first-party Go client library is published or linked from the Meta docs.
+summary:
+  total: 5
+  official: 5
+  languages: [python, php, ruby, javascript, java]
+  current_graph_api_version: v26.0
+  stale_relative_to_api: [javascript, java]

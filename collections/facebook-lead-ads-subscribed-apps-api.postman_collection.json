@@ -1,0 +1,166 @@
+{
+  "item": [
+    {
+      "id": "5ea5aa26-dc9d-46ee-92d1-5f6d195fc759",
+      "name": "Subscribed Apps",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0f061cfe-120b-499d-823e-ba659c89c3aa",
+          "name": "Subscribe an app to a Page for leadgen webhooks",
+          "request": {
+            "name": "Subscribe an app to a Page for leadgen webhooks",
+            "description": {},
+            "url": {
+              "path": [
+                ":page-id",
+                "subscribed_apps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "page-id",
+                  "description": "(Required) Facebook Page ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "subscribed_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated; include \"leadgen\"."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ec9ec0e1-2c65-4210-a813-d11b37cbea51",
+              "name": "Page subscribed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":page-id",
+                    "subscribed_apps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "page-id",
+                      "description": "(Required) Facebook Page ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Comma-separated; include \"leadgen\".",
+                        "type": "text/plain"
+                      },
+                      "key": "subscribed_fields",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://graph.facebook.com/v22.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "leads_retrieval pages_show_list pages_manage_ads"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://graph.facebook.com/v22.0/oauth/access_token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://www.facebook.com/v22.0/dialog/oauth"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "273e9870-2fa9-4e7d-b89c-6fb85e515a41",
+    "name": "Meta Marketing API - Lead Ads Bulk Leads Subscribed Apps API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Graph API endpoints for managing Facebook and Instagram lead\ngeneration forms, retrieving captured leads, downloading bulk lead\nexports, and configuring leadgen webhooks. Authentication uses a\nPage access token (OAuth 2.0 bearer) with the leads_retrieval,\npages_show_list, and pages_manage_ads permissions granted by a Page\nadmin.\n\n\nContact Support:\n Name: Meta for Developers",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,33 +1,93 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-08-14'
+method: searched
 source: openapi/facebook-lead-ads-openapi.yml
+docs: https://developers.facebook.com/docs/permissions
+also:
+  - https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+  - https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+  - https://developers.facebook.com/docs/graph-api/overview/access-levels
+note: >-
+  Upgraded from derived to searched. The OpenAPI in this repo declares three scopes; Meta's
+  lead-ads retrieval guide documents six, and which subset you need depends on WHICH lead
+  fields you read — ad-level fields (ad_id, campaign_id) require a different permission set
+  than the lead body. The three the spec omits are recorded below with
+  in_spec: false so the gap stays visible.
+  Meta calls these "permissions", not "scopes"; they are OAuth 2.0 scope strings on the
+  wire. Every permission is additionally gated by an ACCESS LEVEL (Standard vs Advanced) —
+  see plans/facebook-lead-ads-plans-pricing.yml — so being granted a scope and being able to
+  use it against arbitrary users are two different things.
 schemes:
-- name: PageAccessToken
-  source: openapi/facebook-lead-ads-openapi.yml
-  flows:
-  - flow: authorizationCode
-    authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
-    tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
-  description: |-
-    Page access token obtained via Facebook Login / Meta Business
-    Login with leads_retrieval, pages_show_list, and
-    pages_manage_ads permissions.
+  - name: PageAccessToken
+    source: openapi/facebook-lead-ads-openapi.yml
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
+        tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
+    description: |-
+      Page access token obtained via Facebook Login / Meta Business
+      Login with leads_retrieval, pages_show_list, and
+      pages_manage_ads permissions.
 scopes:
-- scope: leads_retrieval
-  description: Read leads from lead ad forms
-  flows:
-  - authorizationCode
-  sources:
-  - openapi/facebook-lead-ads-openapi.yml
-- scope: pages_manage_ads
-  description: Manage ads associated with a Page
-  flows:
-  - authorizationCode
-  sources:
-  - openapi/facebook-lead-ads-openapi.yml
-- scope: pages_show_list
-  description: List Pages the user manages
-  flows:
-  - authorizationCode
-  sources:
-  - openapi/facebook-lead-ads-openapi.yml
+  - scope: leads_retrieval
+    description: >-
+      Read leads from lead ad forms. The core permission for this product — without it,
+      /{form-id}/leads and /{lead-id} return an error rather than lead data.
+    flows: [authorizationCode]
+    in_spec: true
+    app_review_required: true
+    sources: [openapi/facebook-lead-ads-openapi.yml]
+  - scope: pages_show_list
+    description: List the Pages a user manages — needed to resolve the page-id that owns the forms.
+    flows: [authorizationCode]
+    in_spec: true
+    sources: [openapi/facebook-lead-ads-openapi.yml]
+  - scope: pages_manage_ads
+    description: Manage ads associated with a Page.
+    flows: [authorizationCode]
+    in_spec: true
+    app_review_required: true
+    sources: [openapi/facebook-lead-ads-openapi.yml]
+  - scope: ads_management
+    description: >-
+      Required to read ad-level lead fields (ad_id, campaign_id) and for the full lead-data
+      permission set documented on the retrieval guide.
+    flows: [authorizationCode]
+    in_spec: false
+    sources: [https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving]
+  - scope: pages_read_engagement
+    description: >-
+      Required alongside ads_management for ad-level fields and for the full lead-data
+      permission set.
+    flows: [authorizationCode]
+    in_spec: false
+    sources: [https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving]
+  - scope: pages_manage_metadata
+    description: >-
+      Required to subscribe a Page to leadgen webhooks — the operations subscribeAppWebhook
+      and pageSubscribedApps in this repo.
+    flows: [authorizationCode]
+    in_spec: false
+    webhooks_only: true
+    sources: [https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving]
+permission_sets:
+  - use_case: Read ad-level fields (ad_id, campaign_id)
+    scopes: [ads_management, pages_read_engagement, pages_show_list]
+    plus_for_webhooks: [pages_manage_metadata]
+  - use_case: Read all lead data and ad-level data
+    scopes: [ads_management, leads_retrieval, pages_show_list, pages_read_engagement, pages_manage_ads]
+  - use_case: App Review submission for lead ads
+    scopes: [leads_retrieval, pages_manage_ads]
+    note: The two permissions Meta's lead ads guide names as requiring App Review.
+access_levels:
+  detail: plans/facebook-lead-ads-plans-pricing.yml
+  levels:
+    - name: Standard Access
+      description: The permission works only for users who have a role on the app.
+    - name: Advanced Access
+      description: >-
+        The permission works for any app user; requires Business Verification and
+        App Review.
+summary:
+  total: 6
+  in_spec: 3
+  docs_only: 3

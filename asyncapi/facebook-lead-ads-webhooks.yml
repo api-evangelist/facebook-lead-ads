@@ -1,0 +1,122 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/docs/graph-api/webhooks/getting-started
+also:
+  - https://developers.facebook.com/documentation/ads-commerce/marketing-api/guides/lead-ads/quickstart/webhooks-integration
+  - https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  Meta publishes NO AsyncAPI document for the Graph API webhook surface. Searched
+  developers.facebook.com, the site llms.txt index, and the graph.facebook.com host
+  (/asyncapi.yaml, /asyncapi.json) — nothing. The event surface is real and well documented
+  in prose, so it is captured below as a webhook catalog rather than fabricated as an
+  AsyncAPI document.
+note: >-
+  Real-time lead delivery is the headline feature of Facebook Lead Ads — webhooks are how a
+  CRM receives a lead the moment it is submitted, instead of polling /{form-id}/leads. The
+  event surface is a single field (`leadgen`) on a single object type (`page`), which makes
+  this one of the narrowest webhook catalogs in the catalog and one of the most heavily used.
+transport: HTTPS POST to a developer-registered callback URL
+subscription:
+  model: app subscribes to an object+field, then each Page subscribes the app
+  operations:
+    - operationId: subscribeAppWebhook
+      spec: openapi/facebook-lead-ads-subscriptions-api-openapi.yml
+      path: /{app-id}/subscriptions
+      description: >-
+        Register the app's callback URL and verify token for object=page, fields including
+        "leadgen".
+    - operationId: pageSubscribedApps
+      spec: openapi/facebook-lead-ads-subscribed-apps-api-openapi.yml
+      path: /{page-id}/subscribed_apps
+      description: Subscribe the app to a specific Page with subscribed_fields including "leadgen".
+  required_permissions:
+    - pages_manage_metadata
+    - pages_show_list
+    - leads_retrieval
+verification_handshake:
+  method: GET
+  query_parameters:
+    - name: hub.mode
+      value: subscribe
+      description: Always the literal string "subscribe".
+    - name: hub.challenge
+      type: int
+      description: '"An int you must pass back to us."'
+    - name: hub.verify_token
+      type: string
+      description: >-
+        "A string that we grab from the Verify Token field in your app's App Dashboard."
+        Compare it to your configured value before echoing the challenge.
+  expected_response: Echo hub.challenge back in the response body.
+security:
+  signature_header: X-Hub-Signature-256
+  algorithm: HMAC-SHA256
+  key: the app secret
+  format: 'sha256=<hex digest of the raw request body>'
+  validation: >-
+    "Generate a SHA256 signature using the payload and your app's App Secret. Compare your
+    signature to the signature in the X-Hub-Signature-256 header (everything after
+    sha256=). If the signatures match, the payload is genuine."
+  note: >-
+    The digest must be computed over the RAW body. Re-serialising the parsed JSON changes
+    the bytes and breaks verification — the most common integration failure on this surface.
+delivery:
+  expected_response: 200 OK over HTTPS
+  retry_policy: >-
+    "Retry immediately, then try a few more times with decreasing frequency over the next
+    36 hours."
+  drop_after: 36 hours
+  ordering: not guaranteed
+  at_least_once: true
+  agent_note: >-
+    Delivery is at-least-once with no idempotency key, so a consumer MUST de-duplicate on
+    the leadgen_id. See conventions/facebook-lead-ads-conventions.yml — this API publishes
+    no idempotency contract at all.
+channels:
+  - name: page/leadgen
+    object: page
+    field: leadgen
+    description: >-
+      Fired when a user submits a lead generation form on a Facebook or Instagram lead ad.
+    payload_fields:
+      - {name: object, description: 'The object type — "page".'}
+      - {name: entry, description: Array of change batches, one per Page.}
+      - {name: 'entry[].id', description: The Page ID.}
+      - {name: 'entry[].time', description: Unix timestamp of the batch.}
+      - {name: 'entry[].changes', description: Array of change objects.}
+      - {name: 'entry[].changes[].field', description: 'The subscribed field — "leadgen".'}
+      - {name: 'entry[].changes[].value.leadgen_id', description: The ID of the lead just created.}
+      - {name: 'entry[].changes[].value.page_id', description: The Page that owns the form.}
+      - {name: 'entry[].changes[].value.form_id', description: The lead generation form.}
+      - {name: 'entry[].changes[].value.adgroup_id', description: The ad that produced the lead.}
+      - {name: 'entry[].changes[].value.ad_id', description: The ad ID.}
+      - {name: 'entry[].changes[].value.created_time', description: Unix timestamp of submission.}
+    follow_up:
+      description: >-
+        The notification carries IDs, not lead content. Read the lead body with getLead
+        against /{lead-id}.
+      operationId: getLead
+      spec: openapi/facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml
+    rate_limit:
+      bucket: LeadGen business use case
+      formula: Calls within 24 hours = 4800 * Leads Generated
+      error_code: 80005
+      detail: rate-limits/facebook-lead-ads-rate-limits.yml
+alternative_to_webhooks:
+  - method: bulk read by form
+    operationId: listLeadsForForm
+    path: /{form-id}/leads
+  - method: bulk read by ad
+    operationId: listLeadsForAd
+    path: /{ad-id}/leads
+  - method: CSV export
+    url: https://www.facebook.com/ads/lead_gen/export_csv/
+    params: [from_date, to_date]
+    note: POSIX/UNIX timestamp formats.
+summary:
+  channels: 1
+  asyncapi_document: false
+  signature_verification: true
+  replay_protection: false

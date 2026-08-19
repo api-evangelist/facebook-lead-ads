@@ -1,0 +1,77 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+note: >-
+  Meta ships real testing infrastructure for lead ads, but every piece of it is behind a
+  Meta Business login — which is a materially different posture from an API that hands out
+  anonymous test keys. There are no test-vs-live key prefixes here: the same Page access
+  token addresses both a test lead and a real one, and what separates them is the APP MODE
+  (Development vs Live) and whether the submitting user has a role on the app. Nothing in
+  this file is invented; the login gates below were probed.
+test_live_separation:
+  model: app-mode
+  key_prefixes: null
+  key_prefix_note: >-
+    None. Meta access tokens carry no test/live prefix, so a client cannot tell from the
+    credential alone which environment it is pointed at.
+  modes:
+    - name: Development Mode
+      description: >-
+        The default mode of a newly created app. "Development mode app users can access
+        leads submitted by someone with a role in that same app" — so a developer, tester
+        or admin can submit a form and immediately read the lead back.
+      docs: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
+    - name: Live Mode
+      description: Post-App-Review. Real leads from real users on live ad campaigns.
+  role_gate: >-
+    In Development Mode only users with an app role (Administrator, Developer, Tester) can
+    submit and retrieve leads. This is the closest thing to a fixture.
+tools:
+  - name: Lead Ads Testing Tool
+    url: https://developers.facebook.com/tools/lead-ads-testing
+    purpose: >-
+      Create and delete test leads against a real lead generation form without running a
+      paid campaign — the standard way to exercise the leadgen webhook and the
+      /{form-id}/leads edge end to end.
+    access: gated
+    probe:
+      date: '2026-08-14'
+      http_status: 302
+      redirect_to: https://business.facebook.com/business/loginpage/?next=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Flead-ads-testing
+      finding: Requires a Meta Business login; not readable anonymously.
+  - name: Graph API Explorer
+    url: https://developers.facebook.com/tools/explorer/
+    purpose: >-
+      Interactive console for composing Graph API calls, minting short-lived tokens and
+      selecting permissions — the console an agent-builder would use to see the real shape
+      of a /{form-id}/leads response.
+    access: gated
+    probe:
+      date: '2026-08-14'
+      http_status: 302
+      redirect_to: https://business.facebook.com/business/loginpage/?next=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer%2F
+      finding: Requires a Meta Business login; not readable anonymously.
+  - name: Test Apps
+    url: https://developers.facebook.com/docs/development/build-and-test/test-apps
+    purpose: >-
+      A cloned app that shares the parent app's configuration but runs against test data —
+      Meta's recommended way to build and test without touching a production app.
+    access: gated
+test_values:
+  cards: null
+  accounts: null
+  magic_identifiers: null
+  note: >-
+    No published magic identifiers, test card numbers or fixture IDs. Test data on this
+    platform is created through the Lead Ads Testing Tool against your own real form, not
+    drawn from a published table.
+time_simulation:
+  supported: false
+  note: No test clocks or time-travel fixtures.
+webhook_testing:
+  supported: true
+  mechanism: >-
+    The Lead Ads Testing Tool fires a real leadgen webhook notification at the subscribed
+    callback URL, and the App Dashboard's Webhooks product page offers a "Test" button that
+    sends a sample payload per field.
+  detail: asyncapi/facebook-lead-ads-webhooks.yml

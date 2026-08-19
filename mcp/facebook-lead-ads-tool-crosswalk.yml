@@ -1,0 +1,77 @@
+generated: '2026-08-14'
+method: derived
+source: mcp/facebook-lead-ads-mcp.yml + openapi/*.yml
+note: >-
+  A crosswalk between Meta's hosted Ads MCP server and the Facebook Lead Ads OpenAPI
+  operations in this repo. It is deliberately an EMPTY-BINDING crosswalk, and that is the
+  finding: Meta ships a remote MCP server for the ads surface, but the seven tool categories
+  it publishes are campaign/catalog/reporting-shaped and none of them names a leadgen-forms
+  or lead-retrieval capability. The live tools/list is auth-gated (HTTP 401), so individual
+  tool names and inputSchemas could not be captured and no binding can be asserted at
+  operation granularity without fabricating it. Every lead-ads operation is therefore
+  recorded as rest_only until an authenticated introspection pass proves otherwise.
+surfaces:
+  openapi:
+    files:
+      - openapi/facebook-lead-ads-leadgen-forms-api-openapi.yml
+      - openapi/facebook-lead-ads-leads-api-openapi.yml
+      - openapi/facebook-lead-ads-bulk-leads-api-openapi.yml
+      - openapi/facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml
+      - openapi/facebook-lead-ads-subscriptions-api-openapi.yml
+      - openapi/facebook-lead-ads-subscribed-apps-api-openapi.yml
+    base: https://graph.facebook.com/v22.0
+    gated: false
+    note: Spec is API Evangelist's; Meta publishes no OpenAPI for the Graph API.
+  graphql:
+    endpoint: null
+    note: The Meta Graph API is a REST-over-HTTP graph traversal API, not GraphQL.
+  mcp:
+    url: https://mcp.facebook.com/ads
+    gated: true
+    gate: 'POST tools/list -> HTTP 401 {"title":"Authentication Required"}'
+crosswalk: []
+mcp_only:
+  - tool: 'category: Comprehensive reporting'
+    reason: >-
+      Ads Insights reporting. No corresponding operation in this repo's lead-ads spec;
+      backed by the Marketing API /insights edges, which are outside the lead-ads surface.
+  - tool: 'category: Ad creation and management'
+    reason: >-
+      Campaign/ad set/ad CRUD. Outside the lead-ads endpoint family captured here (this repo
+      covers leadgen forms, leads, bulk leads and leadgen webhook subscription only).
+  - tool: 'category: Catalog creation and management'
+    reason: Commerce catalog surface; unrelated to lead generation forms.
+  - tool: 'category: Signals and datasets'
+    reason: Conversions API / dataset quality surface; unrelated to lead retrieval.
+  - tool: 'category: Help and troubleshooting'
+    reason: Business Help Center search; no API operation backs it.
+  - tool: 'category: A/B tests and conversion lift studies'
+    reason: Experiments surface; outside the lead-ads endpoint family.
+  - tool: 'category: Activity logs'
+    reason: Ad account activity log; outside the lead-ads endpoint family.
+rest_only:
+  - capability: Leadgen forms
+    operations: [listLeadGenForms, createLeadGenForm, getLeadGenForm]
+    reason: No documented MCP tool category covers lead generation forms.
+  - capability: Leads
+    operations: [listLeadsForForm, listLeadsForAd, getLead]
+    reason: No documented MCP tool category covers lead retrieval.
+  - capability: Bulk leads
+    operations: [bulkDownloadLeads]
+    reason: No documented MCP tool category covers bulk lead export.
+  - capability: Leadgen webhooks
+    operations: [subscribeAppWebhook, pageSubscribedApps]
+    reason: >-
+      Webhook subscription is an app-configuration operation; no documented MCP tool
+      category covers it.
+coverage:
+  tools_named: 0
+  tool_categories_named: 7
+  tools_bound: 0
+  mcp_only: 7
+  rest_operations_total: 9
+  rest_operations_with_tool: 0
+  confidence: low
+  blocker: >-
+    Authenticated tools/list introspection against https://mcp.facebook.com/ads is required
+    to raise this above zero. Re-run this crosswalk with a Meta access token.

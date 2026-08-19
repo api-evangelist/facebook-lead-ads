@@ -1,0 +1,75 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/docs/graph-api/changelog
+docs: https://developers.facebook.com/docs/graph-api/changelog
+note: >-
+  Meta runs a single dated changelog for the whole Graph API, and the Marketing API (which
+  Facebook Lead Ads belongs to) is versioned in lockstep with it. Entries are organised by
+  API VERSION rather than by date-of-change, and each version carries an explicit expiry —
+  the changelog and the deprecation policy are the same document in practice. Recent window
+  only; the live changelog is the source of truth.
+scheme: major-version (v{MAJOR}.{MINOR}), released roughly twice a year
+current_version: v26.0
+release_cadence: approximately every 4-6 months
+expiry_rule: A version is no longer usable two years after its successor is released.
+entries:
+  - version: v26.0
+    date: '2026-07-29'
+    available_until: TBD
+    current: true
+    breaking: true
+    kind: versioned release
+  - version: v25.0
+    date: '2026-02-18'
+    available_until: '2028-07-29'
+    breaking: true
+    kind: versioned release
+  - version: v24.0
+    date: '2025-10-08'
+    available_until: '2028-02-18'
+    breaking: true
+    kind: versioned release
+  - version: v23.0
+    date: '2025-05-29'
+    available_until: '2027-10-08'
+    breaking: true
+    kind: versioned release
+    highlights:
+      - >-
+        The live Ads API now returns x-ad-api-version-warning for this version
+        (observed 2026-08-14).
+  - version: v22.0
+    date: '2025-01-21'
+    available_until: '2027-05-20'
+    breaking: true
+    kind: versioned release
+    highlights:
+      - The version this repo's OpenAPI documents target.
+      - >-
+        The live Ads API now returns x-ad-api-version-warning for this version
+        (observed 2026-08-14).
+  - version: v21.0
+    date: '2024-10-02'
+    available_until: '2027-01-21'
+    breaking: true
+    kind: versioned release
+  - version: v20.0
+    date: '2024-05-21'
+    available_until: '2026-09-24'
+    breaking: true
+    kind: versioned release
+    highlights:
+      - >-
+        The version unversioned Graph API calls are currently served by
+        (observed via the facebook-api-version response header, 2026-08-14) — and it
+        expires 2026-09-24, roughly six weeks after this pass.
+change_classes:
+  - id: versioned
+    description: >-
+      "Versioned changes are changes introduced with the release of a new API version" —
+      applied to the newest release immediately, and potentially to older versions later.
+  - id: unversioned
+    description: Applies to every version at once, including ones already released.
+related:
+  lifecycle: lifecycle/facebook-lead-ads-lifecycle.yml
+  versioning_policy: https://developers.facebook.com/docs/graph-api/guides/versioning

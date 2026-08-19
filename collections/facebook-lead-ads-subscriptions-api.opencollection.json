@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Meta Marketing API - Lead Ads Bulk Leads Subscriptions API",
+    "version": "v22.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://www.facebook.com/v22.0/dialog/oauth",
+      "accessTokenUrl": "https://graph.facebook.com/v22.0/oauth/access_token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Subscribe an app to leadgen webhook events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v22.0/:app-id/subscriptions",
+            "params": [
+              {
+                "name": "app-id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "object",
+                  "value": ""
+                },
+                {
+                  "name": "callback_url",
+                  "value": ""
+                },
+                {
+                  "name": "fields",
+                  "value": ""
+                },
+                {
+                  "name": "verify_token",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Subscribe an app to leadgen webhook events"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

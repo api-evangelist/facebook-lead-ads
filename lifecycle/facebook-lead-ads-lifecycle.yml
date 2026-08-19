@@ -1,0 +1,110 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/docs/graph-api/guides/versioning
+note: >-
+  Facebook Lead Ads has no lifecycle policy of its own — it inherits the Graph API's,
+  which is one of the most explicit versioning contracts any large platform publishes.
+  The version facts below were confirmed BOTH from the docs and by probing the live API:
+  requesting each version path and reading the facebook-api-version response header.
+versioning:
+  scheme: uri-path
+  pattern: https://graph.facebook.com/v{MAJOR}.{MINOR}/...
+  current: v26.0
+  default_when_unversioned: v20.0
+  response_header: facebook-api-version
+  docs: https://developers.facebook.com/docs/graph-api/guides/versioning
+  probe:
+    date: '2026-08-14'
+    method: 'GET https://graph.facebook.com/{version}/me, reading facebook-api-version'
+    observed:
+      - {requested: v22.0, served: v22.0, deprecation_warning: true}
+      - {requested: v23.0, served: v23.0, deprecation_warning: true}
+      - {requested: v24.0, served: v24.0, deprecation_warning: false}
+      - {requested: v25.0, served: v25.0, deprecation_warning: false}
+      - {requested: v26.0, served: v26.0, deprecation_warning: false}
+      - {requested: v27.0, served: v20.0, note: does not exist — falls back to the default}
+      - {requested: none, served: v20.0}
+deprecation:
+  policy_url: https://developers.facebook.com/docs/graph-api/guides/versioning
+  guarantee: >-
+    "Each version will remain for at least 2 years from release." A version is no longer
+    usable two years after the date its successor is released; calls to an expired version
+    are defaulted to the next oldest usable version rather than failing.
+  security_carve_out: >-
+    "Facebook does reserve the right to make changes in any API in a short period of time
+    for issues related to security or privacy."
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  proprietary_signal:
+    header: x-ad-api-version-warning
+    value_observed: You are calling a deprecated version of the Ads API.
+    observed_on: [v22.0, v23.0]
+    absent_on: [v24.0, v25.0, v26.0]
+    note: >-
+      Meta signals Ads API deprecation on the wire with a proprietary header rather than
+      RFC 8594 Deprecation/Sunset. An agent that only watches for standard headers will
+      never see it.
+  finding: >-
+    The OpenAPI documents in this repo pin https://graph.facebook.com/v22.0, and the live
+    API returns x-ad-api-version-warning for that version. The spec is describing a Graph
+    API version Meta has already flagged as deprecated for Ads. Per the published policy,
+    v22.0 (released 2025-01-21) remains usable until 2027-05-20.
+versions:
+  - version: v26.0
+    released: '2026-07-29'
+    available_until: TBD
+    current: true
+  - version: v25.0
+    released: '2026-02-18'
+    available_until: '2028-07-29'
+  - version: v24.0
+    released: '2025-10-08'
+    available_until: '2028-02-18'
+  - version: v23.0
+    released: '2025-05-29'
+    available_until: '2027-10-08'
+    ads_api_deprecated: true
+  - version: v22.0
+    released: '2025-01-21'
+    available_until: '2027-05-20'
+    ads_api_deprecated: true
+    note: The version this repo's OpenAPI documents target.
+  - version: v21.0
+    released: '2024-10-02'
+    available_until: '2027-01-21'
+  - version: v20.0
+    released: '2024-05-21'
+    available_until: '2026-09-24'
+    note: The version unversioned Graph API calls are served by today.
+status_page:
+  url: https://metastatus.com/
+  marketing_api: https://metastatus.com/marketing-api
+  probed: '2026-08-14'
+  http_status: 200
+  title: Status and outages of Meta business products
+  note: >-
+    Meta's business-product status dashboard. It carries a Marketing API surface at
+    /marketing-api, which is the API family Facebook Lead Ads belongs to.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No published uptime SLA for the Graph API or Marketing API was found. Access is
+    governed by the Meta Platform Terms rather than a service-level agreement.
+changelog: https://developers.facebook.com/docs/graph-api/changelog
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in openapi/ carries deprecated: true. Deprecation on this platform happens
+  at the API-VERSION level, not the operation level.
+x-evidence:
+  - fetched: '2026-08-14'
+    url: https://metastatus.com/marketing-api
+    http_status: 200
+  - fetched: '2026-08-14'
+    url: https://graph.facebook.com/v22.0/me
+    http_status: 400
+    header_observed: 'x-ad-api-version-warning: You are calling a deprecated version of the Ads API.'
+  - fetched: '2026-08-14'
+    url: https://developers.facebook.com/docs/graph-api/changelog
+    http_status: 200

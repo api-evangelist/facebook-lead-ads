@@ -1,0 +1,87 @@
+generated: '2026-08-14'
+method: probed
+source: live probe of the /.well-known/ surface on every Facebook Lead Ads host
+note: >-
+  Probed every host this product uses — the Graph API base (graph.facebook.com),
+  the developer portal / docs host (developers.facebook.com), the OAuth dialog host
+  (www.facebook.com) and the Meta-hosted Ads MCP host (mcp.facebook.com). One real
+  document was served: the OpenID Connect discovery document at
+  https://www.facebook.com/.well-known/openid-configuration, which is the discovery
+  surface behind the Facebook Login / Meta Business Login flow that issues the Page
+  access tokens this API requires. Everything else 404s (developers.facebook.com),
+  400s with a Graph API OAuthException "Unknown path components" (graph.facebook.com),
+  or 400s with an HTML error page (www.facebook.com). No security.txt is served on
+  any host. mcp.facebook.com answers /.well-known/* with a JSON 404
+  ("MCP server not found for path: ..."), so the Ads MCP server publishes neither
+  RFC 9728 protected-resource metadata nor RFC 8414 authorization-server metadata.
+hosts:
+  - host: https://www.facebook.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: application/json
+        file: facebook-lead-ads-openid-configuration.json
+      - path: /.well-known/oauth-authorization-server
+        status: 400
+      - path: /.well-known/security.txt
+        status: 400
+      - path: /.well-known/agent-card.json
+        status: 400
+      - path: /.well-known/agent.json
+        status: 400
+  - host: https://developers.facebook.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://graph.facebook.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 400
+        note: Graph API OAuthException code 2500 "Unknown path components"
+      - path: /.well-known/oauth-authorization-server
+        status: 400
+      - path: /.well-known/security.txt
+        status: 400
+      - path: /.well-known/api-catalog
+        status: 400
+      - path: /.well-known/ai-plugin.json
+        status: 400
+      - path: /.well-known/agent-card.json
+        status: 400
+      - path: /.well-known/agent.json
+        status: 400
+  - host: https://mcp.facebook.com
+    documents:
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        note: 'JSON body: {"title":"MCP server not found",...} — no RFC 9728 metadata'
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+summary:
+  paths_probed: 27
+  documents_served: 1
+  security_txt: false
+  openid_configuration: true
+  oauth_authorization_server: false
+  api_catalog: false
+  agent_card: false
+x-evidence:
+  fetched: '2026-08-14'
+  url: https://www.facebook.com/.well-known/openid-configuration
+  http_status: 200
+  content_type: application/json
+  issuer: https://www.facebook.com

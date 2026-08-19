@@ -1,0 +1,85 @@
+generated: '2026-08-14'
+method: searched
+status: published
+source: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-overview.md
+docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-overview
+scope_note: >-
+  This is Meta's own hosted MCP server for the ads surface — one of the "Meta ads AI
+  connectors" — and Facebook Lead Ads is an endpoint family of that same Meta Marketing
+  API (Graph API). Meta does not publish a lead-ads-specific MCP server. The published
+  tool categories (reporting, ad creation and management, catalog, signals and datasets,
+  help, A/B tests, activity logs) do not name a leadgen-forms or lead-retrieval tool, and
+  the live tool list is auth-gated, so it cannot be confirmed from outside whether the
+  lead-ads endpoints in openapi/ are reachable through it. Recorded as the provider's
+  agent surface with that limitation stated, not as a lead-ads tool inventory.
+deployment:
+  mode: remote
+  endpoint: https://mcp.facebook.com/ads
+  auth: oauth
+  verified: probed
+server:
+  name: Meta Ads MCP Server
+  vendor: Meta
+  transport: http
+  url: https://mcp.facebook.com/ads
+  hosted_by: Meta (remote, Meta-hosted — no local install)
+  family: Meta ads AI connectors
+  family_url: https://www.facebook.com/business/news/meta-ads-ai-connectors
+tool_categories:
+  - name: Comprehensive reporting
+    description: Gain insights and pull detailed reporting to understand campaign performance.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-comprehensive-reporting
+  - name: Ad creation and management
+    description: Create and edit ads, ad sets, and campaigns.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-ad-creation-and-management
+  - name: Catalog creation and management
+    description: >-
+      Create a catalog and add product data, and troubleshoot data feed and item
+      visibility issues.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-catalog-creation-and-management
+  - name: Signals and datasets
+    description: Access signal health and quality information.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-signals-and-datasets
+  - name: Help and troubleshooting
+    description: Search Meta Business Help Center articles relevant to a query.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-help-and-troubleshooting
+  - name: A/B tests and conversion lift studies
+    description: Create, manage and retrieve A/B tests and conversion lift studies.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-abtests-and-conversion-lift-studies
+  - name: Activity logs
+    description: >-
+      Visibility into activity log changes for an ad account, mirroring the Ads Manager
+      campaign history page.
+    docs: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-tools-activity-logs
+tools: []
+tools_note: >-
+  Not enumerated. The published "Available tools" page did not serve during this pass and
+  POST tools/list against the live endpoint is auth-gated, so no tool names or inputSchemas
+  could be captured. Seven categories are recorded above verbatim from the overview page.
+  Populating tools[] requires authenticated introspection with a Meta access token.
+agent_guidance:
+  source: https://developers.facebook.com/llms.txt
+  user_agent_self_identification: >-
+    Meta publishes an agent self-identification requirement for the Marketing API in its
+    site llms.txt: append "<AgentName>/<Version> (<ModelName>) <HTTPClient>" to the existing
+    User-Agent on every request; keep the agent name stable; do not randomize or impersonate.
+  captured: llms/facebook-lead-ads-llms.txt
+x-evidence:
+  - fetched: '2026-08-14'
+    url: https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-overview.md
+    http_status: 200
+    finding: >-
+      "The server is remote-hosted at https://mcp.facebook.com/ads and works with any
+      MCP-compatible AI agent."
+  - fetched: '2026-08-14'
+    url: https://mcp.facebook.com/ads
+    method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    body: '{"title":"Authentication Required","detail":"Failed to authenticate MCP request","status":401}'
+    finding: >-
+      Endpoint is live and reachable; the tool list is auth-gated. The 401 carries no
+      WWW-Authenticate OAuth challenge and no RFC 9728 resource metadata is served.
+  - fetched: '2026-08-14'
+    url: https://mcp.facebook.com/.well-known/oauth-protected-resource
+    http_status: 404
+    finding: No RFC 9728 protected-resource metadata; MCP clients cannot auto-discover the AS.

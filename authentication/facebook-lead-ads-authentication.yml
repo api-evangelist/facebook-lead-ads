@@ -1,22 +1,94 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-08-14'
+method: searched
 source: openapi/facebook-lead-ads-openapi.yml
+docs: https://developers.facebook.com/docs/facebook-login/guides/access-tokens
+also:
+  - https://www.facebook.com/.well-known/openid-configuration
+  - https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving
+note: >-
+  Upgraded from derived to searched. The OpenAPI declares a single oauth2 scheme; this file
+  adds the token TYPES Meta actually issues (the spec models only one of them), the live
+  auth challenge observed on the wire, and the OIDC discovery document that sits behind the
+  same login.
 summary:
-  types:
-  - oauth2
-  oauth2_flows:
-  - authorizationCode
+  types: [oauth2]
+  oauth2_flows: [authorizationCode]
+  oidc_discovery: true
+  api_key: false
+  mutual_tls: false
 schemes:
-- name: PageAccessToken
-  type: oauth2
-  flows:
-  - flow: authorizationCode
-    authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
-    tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
-    scopes: 3
-  description: |-
-    Page access token obtained via Facebook Login / Meta Business
-    Login with leads_retrieval, pages_show_list, and
-    pages_manage_ads permissions.
-  sources:
-  - openapi/facebook-lead-ads-openapi.yml
+  - name: PageAccessToken
+    type: oauth2
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://www.facebook.com/v22.0/dialog/oauth
+        tokenUrl: https://graph.facebook.com/v22.0/oauth/access_token
+        scopes: 6
+    description: |-
+      Page access token obtained via Facebook Login / Meta Business
+      Login with leads_retrieval, pages_show_list, and
+      pages_manage_ads permissions.
+    sources:
+      - openapi/facebook-lead-ads-openapi.yml
+transport:
+  - 'Authorization: Bearer <access_token>'
+  - '?access_token=<access_token> query parameter (also accepted)'
+observed_challenge:
+  fetched: '2026-08-14'
+  url: https://graph.facebook.com/v22.0/me
+  http_status: 400
+  header: >-
+    www-authenticate: OAuth "Facebook Platform" "invalid_request" "An active access token
+    must be used to query information about the current user."
+token_types:
+  - name: Page access token
+    modeled_in_spec: true
+    description: >-
+      The token this API requires. Issued to an app for a specific Page by a Page admin.
+      Every lead-ads read is scoped to the Page that owns the form.
+  - name: User access token
+    modeled_in_spec: false
+    description: >-
+      Issued by Facebook Login to act on behalf of a person. Used to enumerate the Pages a
+      user administers (pages_show_list) before exchanging for a Page token.
+  - name: System user access token
+    modeled_in_spec: false
+    description: >-
+      Long-lived, non-human credential created in Meta Business Suite. The credential
+      Meta's own Ads CLI authenticates with, and the right choice for unattended
+      server-to-server lead sync.
+    reference: cli/facebook-lead-ads-cli.yml
+  - name: App access token
+    modeled_in_spec: false
+    description: >-
+      app-id|app-secret. Used for app-level configuration such as the webhook subscription
+      on /{app-id}/subscriptions.
+oidc:
+  discovery: https://www.facebook.com/.well-known/openid-configuration
+  probed: '2026-08-14'
+  http_status: 200
+  issuer: https://www.facebook.com
+  authorization_endpoint: https://facebook.com/dialog/oauth/
+  jwks_uri: https://www.facebook.com/.well-known/oauth/openid/jwks/
+  response_types_supported: [id_token, 'token id_token']
+  subject_types_supported: [pairwise]
+  id_token_signing_alg_values_supported: [RS256]
+  file: well-known/facebook-lead-ads-openid-configuration.json
+  note: >-
+    This is the Facebook Login OIDC surface behind the same authorization dialog. It offers
+    only implicit-style response types — "code" is not in response_types_supported — so the
+    authorizationCode flow the API uses is Meta's own OAuth 2.0 implementation, not the OIDC
+    code flow.
+discovery_gaps:
+  rfc8414_authorization_server_metadata: false
+  rfc9728_protected_resource_metadata: false
+  note: >-
+    Neither /.well-known/oauth-authorization-server nor
+    /.well-known/oauth-protected-resource is served on any host, so an OAuth client cannot
+    machine-discover the endpoints — they must be hard-coded from the docs. See
+    well-known/facebook-lead-ads-well-known.yml.
+webhook_authentication:
+  outbound: X-Hub-Signature-256 (HMAC-SHA256 over the raw body, keyed by the app secret)
+  handshake: hub.verify_token compared against the App Dashboard value
+  detail: asyncapi/facebook-lead-ads-webhooks.yml
+scopes_detail: scopes/facebook-lead-ads-scopes.yml

@@ -1,0 +1,69 @@
+generated: '2026-08-14'
+method: probed
+source: live TLS handshake + HEAD request per host, and dig for the registrable domain
+note: >-
+  Probed by hand rather than by 0-working/probe-domain-security.py. That script's shared
+  provider_hosts() helper excludes facebook.com as a social-media link, which is correct for
+  the other ~9,000 providers in the catalog but wrong here, where facebook.com IS the API
+  domain. Results below are direct observations taken 2026-08-14.
+hosts:
+  - host: graph.facebook.com
+    role: Graph API base
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: 'Aug 21 23:59:59 2026 GMT'
+    hsts: true
+    hsts_max_age: 15552000
+    hsts_preload: true
+  - host: developers.facebook.com
+    role: developer portal / documentation
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: 'Aug 21 23:59:59 2026 GMT'
+    hsts: true
+    hsts_max_age: 15552000
+    hsts_preload: true
+  - host: www.facebook.com
+    role: OAuth authorization dialog + OIDC discovery
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: 'Aug 21 23:59:59 2026 GMT'
+    hsts: true
+    hsts_max_age: 15552000
+    hsts_preload: true
+  - host: mcp.facebook.com
+    role: Meta-hosted Ads MCP server
+    https: true
+    tls_version: TLSv1.3
+    cert_expires: 'Aug 21 23:59:59 2026 GMT'
+    hsts: true
+    hsts_max_age: 15552000
+    hsts_preload: true
+domains:
+  - domain: facebook.com
+    dnssec: false
+    dnssec_note: No DNSKEY record returned.
+    caa:
+      - '0 issue "digicert.com; account=271b0beda0771d006aa3a6c11b05187d456d6c239b46cb5241196095b09c92af"'
+    caa_note: >-
+      CAA is present and account-pinned — issuance is restricted to a single DigiCert
+      account, which is stricter than a bare issuer-name CAA.
+    spf: true
+    spf_record: 'v=spf1 redirect=_spf.facebook.com'
+    dmarc: true
+    dmarc_policy: reject
+    dmarc_record: >-
+      v=DMARC1; p=reject; rua=mailto:a@dmarc.facebookmail.com;
+      ruf=mailto:fb-dmarc@datafeeds.phishlabs.com; pct=100
+summary:
+  hosts_probed: 4
+  https: 4/4
+  tls13: 4/4
+  hsts: 4/4
+  hsts_preload: 4/4
+  dnssec: false
+  caa: true
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+  gaps: [dnssec]

@@ -1,0 +1,62 @@
+generated: '2026-08-14'
+method: searched
+source: https://developers.facebook.com/docs/graph-api/overview/access-levels
+also:
+  - https://developers.facebook.com/docs/marketing-api/get-started
+  - https://developers.facebook.com/docs/graph-api/overview/rate-limiting/
+note: >-
+  Meta publishes NO priced plans for the Marketing API / Graph API. There is no API price
+  list, no metered API billing and no paid API tier — you pay Meta for the ADS, not for the
+  API calls that manage them. What Meta publishes instead is an ACCESS-LEVEL ladder, and
+  that ladder is what actually gates a developer, so it is captured here as the plan
+  structure. The levels are not billing tiers; they are review/verification gates, and the
+  level you sit at changes your rate-limit formula (see rate-limits/, where
+  ads_api_access_tier is reported back on X-Business-Use-Case-Usage as
+  development_access / standard_access).
+pricing_model: no-charge-for-api-access
+currency: null
+plan_count: 0
+plan_count_note: >-
+  Zero priced plans. The three entries below are ACCESS LEVELS, recorded because they are
+  the real gate on this API — they are not purchasable and carry no price.
+access_levels:
+  - name: Development Access
+    price: 0
+    gate: Automatic for a newly created app, before App Review.
+    who_can_be_called_for: App users who have a role on the app (admins, developers, testers).
+    quota_signal: 'ads_api_access_tier: development_access'
+    note: >-
+      Development-mode app users can access leads submitted by someone with a role in that
+      same app — this is how lead ads are tested without a live campaign.
+  - name: Standard Access
+    price: 0
+    gate: >-
+      Automatically approved for all new Business, Consumer and Gaming apps, for every
+      permission and feature available to that app type.
+    who_can_be_called_for: >-
+      "Permissions with Standard Access can only be requested from app users who have a
+      role on the requesting app."
+    quota_signal: 'ads_api_access_tier: standard_access'
+    lead_ads_quota_example: Ads Management = 300 + 40 * active ads calls/hour.
+  - name: Advanced Access
+    price: 0
+    gate: >-
+      Business Verification, plus App Review of the individual permission or feature.
+      For lead ads the permissions submitted for review are leads_retrieval and
+      pages_manage_ads.
+    who_can_be_called_for: >-
+      "Permissions with Advanced Access can be requested from any app user, and features
+      with Advanced Access are active for all app users."
+    lead_ads_quota_example: Ads Management = 100000 + 40 * active ads calls/hour.
+    note: >-
+      "Restoring Advanced Access to permissions and features does not require re-review."
+      Downgrading to Standard disables the permission for users without an app role.
+prerequisites:
+  - An active Meta ad account (which is where billing for advertising actually happens).
+  - A registered Meta Developer account and a created app.
+  - Page Admin access, or flexible permissions, on the Page that owns the lead form.
+billing_note: >-
+  Advertising spend is billed against the ad account and is out of scope for this artifact —
+  it is not an API plan. https://www.facebook.com/business/help/915885887059947
+signup: https://developers.facebook.com/async/registration/
+app_review: https://developers.facebook.com/docs/app-review

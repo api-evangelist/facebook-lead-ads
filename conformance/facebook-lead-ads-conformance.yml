@@ -1,0 +1,147 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  openapi/*.yml, well-known/facebook-lead-ads-well-known.yml,
+  conventions/facebook-lead-ads-conventions.yml, errors/facebook-lead-ads-problem-types.yml,
+  asyncapi/facebook-lead-ads-webhooks.yml
+note: >-
+  Which cross-cutting standards the Facebook Lead Ads surface actually conforms to. Every
+  "true" below is backed by an artifact in this repo or a probe recorded in it; every
+  "false" is a checked absence rather than an assumption. The pattern is consistent: Meta
+  implements the IDENTITY standards (OAuth 2.0, OIDC) properly, and implements everything
+  else — errors, rate limiting, deprecation — with proprietary mechanisms that look like
+  the standard but are not it.
+standards:
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    evidence: >-
+      openapi securitySchemes declares type oauth2 with an authorizationCode flow;
+      authorizationUrl https://www.facebook.com/v22.0/dialog/oauth,
+      tokenUrl https://graph.facebook.com/v22.0/oauth/access_token. A live unauthenticated
+      call returns 'www-authenticate: OAuth "Facebook Platform" "invalid_request"'.
+  - id: oidc
+    name: OpenID Connect
+    conforms: true
+    evidence: >-
+      https://www.facebook.com/.well-known/openid-configuration returns HTTP 200 with
+      issuer https://www.facebook.com, jwks_uri, response_types_supported
+      [id_token, token id_token], subject_types_supported [pairwise],
+      id_token_signing_alg_values_supported [RS256].
+      Saved verbatim at well-known/facebook-lead-ads-openid-configuration.json.
+    note: >-
+      Implicit-style response types only — no "code" in response_types_supported, so this is
+      OIDC for Facebook Login rather than a full authorization-code OIDC provider.
+  - id: rfc8414
+    name: OAuth 2.0 Authorization Server Metadata
+    conforms: false
+    evidence: >-
+      /.well-known/oauth-authorization-server returns 400 on www.facebook.com and
+      graph.facebook.com, 404 on developers.facebook.com and mcp.facebook.com.
+  - id: rfc9728
+    name: OAuth 2.0 Protected Resource Metadata
+    conforms: false
+    evidence: >-
+      https://mcp.facebook.com/.well-known/oauth-protected-resource returns 404, so MCP
+      clients cannot auto-discover the authorization server for the Ads MCP endpoint.
+  - id: rfc9116
+    name: security.txt
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt returns 404 on developers.facebook.com and 400 on
+      www.facebook.com and graph.facebook.com. Meta runs a real bug bounty program at
+      bugbounty.meta.com but does not advertise it via RFC 9116.
+  - id: rfc9457
+    name: Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      Errors use a proprietary {"error":{message,type,code,error_subcode,fbtrace_id}}
+      envelope with content-type application/json, not application/problem+json.
+      See errors/facebook-lead-ads-problem-types.yml.
+  - id: rfc6585-429
+    name: HTTP 429 Too Many Requests
+    conforms: false
+    evidence: >-
+      Throttling returns HTTP 400 with error.code 4/17/32/613 or 80000-80014, not 429.
+      See rate-limits/facebook-lead-ads-rate-limits.yml.
+  - id: ietf-ratelimit-headers
+    name: RateLimit-* / Retry-After
+    conforms: false
+    evidence: >-
+      Rate-limit state is carried in proprietary X-App-Usage,
+      X-Business-Use-Case-Usage and X-Ad-Account-Usage headers whose VALUES are JSON
+      documents. No Retry-After, no RateLimit-Limit/Remaining/Reset.
+  - id: rfc8594
+    name: Sunset / Deprecation HTTP headers
+    conforms: false
+    evidence: >-
+      Deprecation is signalled with the proprietary x-ad-api-version-warning header
+      (observed on v22.0 and v23.0, absent on v24.0+), not Deprecation or Sunset.
+      A dated expiry per version IS published, in the changelog.
+      See lifecycle/facebook-lead-ads-lifecycle.yml.
+  - id: cursor-pagination
+    name: Cursor-based pagination
+    conforms: true
+    evidence: >-
+      GraphCollection schema in openapi/ carries paging.cursors.before/after plus
+      paging.next/previous; documented on the lead retrieval guide.
+  - id: idempotency-key
+    name: Idempotency-Key (draft-ietf-httpapi-idempotency-key-header)
+    conforms: false
+    evidence: >-
+      No idempotency key, no client request identifier, no replay window is documented for
+      any write operation. See conventions/facebook-lead-ads-conventions.yml.
+  - id: webhook-signature
+    name: Signed webhook payloads
+    conforms: true
+    evidence: >-
+      X-Hub-Signature-256, HMAC-SHA256 over the raw body keyed by the app secret,
+      "sha256=" prefixed. See asyncapi/facebook-lead-ads-webhooks.yml.
+    note: >-
+      Pre-dates and does not implement RFC 9421 HTTP Message Signatures or the Standard
+      Webhooks specification.
+  - id: pubsubhubbub
+    name: WebSub / PubSubHubbub verification handshake
+    conforms: partial
+    evidence: >-
+      The subscription handshake uses hub.mode / hub.challenge / hub.verify_token, which is
+      the PubSubHubbub vocabulary, but the surrounding subscription model is Meta's own
+      (app + Page subscribes to an object field via the Graph API).
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: No AsyncAPI document published for the leadgen webhook surface.
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: >-
+      Meta publishes no OpenAPI or Swagger document for the Graph API. Probed
+      /openapi.json, /openapi.yaml, /swagger.json and /api-docs on graph.facebook.com
+      (400, Graph API OAuthException) and developers.facebook.com (404). The specs in
+      openapi/ are API Evangelist's, authored from the documentation.
+  - id: graphql
+    name: GraphQL
+    conforms: false
+    evidence: >-
+      Despite the name, the Meta "Graph API" is REST-over-HTTP graph traversal, not GraphQL.
+      No /graphql endpoint and no introspection surface.
+  - id: json-api
+    name: JSON:API
+    conforms: false
+    evidence: Response envelope is {data, paging}, not the JSON:API document structure.
+  - id: gdpr
+    name: GDPR
+    conforms: unknown
+    evidence: >-
+      Meta publishes a Privacy Policy (effective 2026-07-23) and Platform Terms
+      (updated 2026-02-03) governing Platform Data processing, but no GDPR conformance
+      claim was captured for the lead-ads API surface specifically.
+summary:
+  asserted: 18
+  conforms_true: 4
+  conforms_partial: 1
+  conforms_false: 12
+  unknown: 1
+  pattern: >-
+    Identity standards implemented; error, rate-limit, deprecation and discovery standards
+    all replaced by proprietary equivalents.

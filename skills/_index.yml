@@ -1,0 +1,27 @@
+generated: '2026-08-14'
+method: generated
+source: >-
+  Grounded in openapi/*.yml — every operationId below was verified verbatim against the
+  specs in this repo — plus conventions/, errors/, rate-limits/, scopes/ and
+  asyncapi/facebook-lead-ads-webhooks.yml.
+note: >-
+  No provider-published Agent Skills or AGENTS.md was found on developers.facebook.com.
+  Meta does publish agent guidance of a different kind — a User-Agent self-identification
+  format for AI agents calling the Marketing API — which is captured verbatim in
+  llms/facebook-lead-ads-llms.txt and restated in each skill.
+skills:
+  - file: facebook-lead-ads-retrieve-leads.md
+    name: Retrieve leads from a Facebook lead ad form
+    api: openapi/facebook-lead-ads-leads-api-openapi.yml
+    operations: [listLeadGenForms, listLeadsForForm, listLeadsForAd, getLead, bulkDownloadLeads]
+  - file: facebook-lead-ads-subscribe-leadgen-webhook.md
+    name: Subscribe to real-time leadgen webhooks
+    api: openapi/facebook-lead-ads-subscriptions-api-openapi.yml
+    operations: [subscribeAppWebhook, pageSubscribedApps, getLead]
+  - file: facebook-lead-ads-manage-leadgen-forms.md
+    name: Create and inspect lead generation forms
+    api: openapi/facebook-lead-ads-leadgen-forms-api-openapi.yml
+    operations: [listLeadGenForms, createLeadGenForm, getLeadGenForm]
+coverage:
+  operations_in_repo: 9
+  operations_covered: 9
