@@ -31,6 +31,15 @@ tags:
   - Facebook
   - Instagram
   - Meta
+  - Webhook
+tags_raw:
+  - Advertising
+  - Lead Generation
+  - Lead Ads
+  - Marketing API
+  - Facebook
+  - Instagram
+  - Meta
   - Webhooks
 url: >-
   https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/apis.yml
@@ -47,6 +56,12 @@ apis:
   humanURL: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
   baseURL: https://graph.facebook.com
   tags:
+  - Lead Ads
+  - Lead Generation
+  - Marketing API
+  - Graph API
+  - Webhook
+  tags_raw:
   - Lead Ads
   - Lead Generation
   - Marketing API
@@ -129,6 +144,8 @@ apis:
   humanURL: https://developers.facebook.com/docs/marketing-api/guides/lead-ads/
   baseURL: https://graph.facebook.com
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
