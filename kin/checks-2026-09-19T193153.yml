@@ -2,16 +2,16 @@
 kin_checks:
   slug: facebook-lead-ads
   schema_version: 0.22.0
-  scored_at: '2026-09-18'
-  run_ts: 2026-09-18T231945
+  scored_at: '2026-09-19'
+  run_ts: 2026-09-19T193153
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 136
-    earned: 50
+    earned: 51
     partial: 10
-    missed: 51
+    missed: 50
     na: 25
   checks:
   - id: multiple_apis
@@ -118,8 +118,6 @@ kin_checks:
   - id: agent_card
     status: missed
   - id: dry_run_mode
-    status: missed
-  - id: protected_resource_metadata
     status: missed
   - id: dynamic_client_registration
     status: missed
