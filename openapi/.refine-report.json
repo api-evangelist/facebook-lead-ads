@@ -1,12 +1,7 @@
 {
   "provider": "facebook-lead-ads",
   "sources": [
-    "facebook-lead-ads-bulk-leads-api-openapi.yml",
-    "facebook-lead-ads-leadgen-forms-api-openapi.yml",
-    "facebook-lead-ads-leads-api-openapi.yml",
-    "facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml",
-    "facebook-lead-ads-subscribed-apps-api-openapi.yml",
-    "facebook-lead-ads-subscriptions-api-openapi.yml"
+    "_original/facebook-lead-ads-openapi.yml"
   ],
   "outputs": [
     "facebook-lead-ads-bulk-leads-api-openapi.yml",
@@ -19,6 +14,32 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "facebook-lead-ads-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "facebook-lead-ads-openapi.yml: tagged paths GET /{page-id}/leadgen_forms -> Leadgen Forms",
+    "facebook-lead-ads-openapi.yml: tagged paths POST /{page-id}/leadgen_forms -> Leadgen Forms",
+    "facebook-lead-ads-openapi.yml: tagged paths GET /{form-id} -> Meta Marketing API Lead Ads",
+    "facebook-lead-ads-openapi.yml: tagged paths GET /{form-id}/leads -> Leads",
+    "facebook-lead-ads-openapi.yml: tagged paths GET /{lead-id} -> Meta Marketing API Lead Ads",
+    "facebook-lead-ads-openapi.yml: tagged paths GET /{ad-id}/leads -> Leads",
+    "facebook-lead-ads-openapi.yml: tagged paths GET /{form-id}/bulk_leads -> Bulk Leads",
+    "facebook-lead-ads-openapi.yml: tagged paths POST /{app-id}/subscriptions -> Subscriptions",
+    "facebook-lead-ads-openapi.yml: tagged paths POST /{page-id}/subscribed_apps -> Subscribed Apps",
+    "facebook-lead-ads-openapi.yml: declared missing tag: Bulk Leads",
+    "facebook-lead-ads-openapi.yml: declared missing tag: Leadgen Forms",
+    "facebook-lead-ads-openapi.yml: declared missing tag: Leads",
+    "facebook-lead-ads-openapi.yml: declared missing tag: Meta Marketing API Lead Ads",
+    "facebook-lead-ads-openapi.yml: declared missing tag: Subscribed Apps",
+    "facebook-lead-ads-openapi.yml: declared missing tag: Subscriptions",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "facebook-lead-ads-bulk-leads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "facebook-lead-ads-leadgen-forms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "facebook-lead-ads-leads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "facebook-lead-ads-subscribed-apps-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "facebook-lead-ads-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
