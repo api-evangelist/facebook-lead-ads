@@ -79,20 +79,6 @@ paths:
       tags:
       - Leadgen Forms
 components:
-  parameters:
-    PageId:
-      name: page-id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Facebook Page ID
-    Fields:
-      name: fields
-      in: query
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
   schemas:
     GraphCollection:
       type: object
@@ -115,6 +101,20 @@ components:
               type: string
             previous:
               type: string
+  parameters:
+    Fields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
+    PageId:
+      name: page-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Facebook Page ID
   securitySchemes:
     PageAccessToken:
       type: oauth2

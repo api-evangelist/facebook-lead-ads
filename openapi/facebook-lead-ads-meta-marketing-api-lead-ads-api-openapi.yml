@@ -66,6 +66,13 @@ paths:
       tags:
       - Meta Marketing API Lead Ads
 components:
+  parameters:
+    Fields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
   schemas:
     Lead:
       type: object
@@ -90,13 +97,6 @@ components:
                 type: array
                 items:
                   type: string
-  parameters:
-    Fields:
-      name: fields
-      in: query
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
   securitySchemes:
     PageAccessToken:
       type: oauth2
