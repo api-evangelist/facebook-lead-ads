@@ -1,0 +1,54 @@
+slug: facebook-lead-ads
+provider: Facebook Lead Ads
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Leadgen Forms
+  spec_file: facebook-lead-ads-leadgen-forms-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.85
+  evidence: POST /{page-id}/leadgen_forms  createLeadGenForm  Create a lead generation form on a Page
+  reason: Creating and listing lead generation forms on a Facebook Page is squarely digital lead-generation
+    campaign tooling, matching Demand Generation Management ('Lead generation campaigns, lifecycle marketing').
+- tag: Bulk Leads
+  spec_file: facebook-lead-ads-bulk-leads-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.78
+  evidence: GET /{form-id}/bulk_leads  bulkDownloadLeads  Bulk download leads for a form
+  reason: Retrieval of leads captured by Facebook/Instagram lead generation forms. This is the lead-capture
+    output of paid demand-generation campaigns, so Demand Generation Management fits; some ambiguity with
+    Opportunity & Pipeline Management since the leads then feed CRM.
+- tag: Leads
+  spec_file: facebook-lead-ads-leads-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.78
+  evidence: GET /{form-id}/leads listLeadsForForm 'List leads captured by a form'; 'instant lead-generation
+    forms on Facebook and Instagram'
+  reason: Operations retrieve leads captured by paid lead-generation ad forms — this is lead generation
+    campaign output, i.e. demand generation marketing, not CRM master data or technical plumbing.
+- tag: Meta Marketing API Lead Ads
+  spec_file: facebook-lead-ads-meta-marketing-api-lead-ads-api-openapi.yml
+  capability_id: BC-400.40
+  capability_id_l1: BC-400
+  capability_name: Demand Generation Management
+  confidence: 0.75
+  evidence: GET /{form-id} getLeadGenForm 'Get a lead generation form'; GET /{lead-id} getLead 'Get a
+    single lead'; schema 'Lead'
+  reason: Despite the awkward tag name, the operations read lead-generation forms and individual captured
+    leads from Meta ad campaigns — demand generation / lead capture.

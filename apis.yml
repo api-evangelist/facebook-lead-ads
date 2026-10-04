@@ -165,6 +165,9 @@ apis:
   - type: Overlay
     url: overlays/facebook-lead-ads-subscriptions-api-overlay.yaml
 common:
+  - type: CapabilityMap
+    url: capabilities/facebook-lead-ads-capability-edges.yml
+    name: Facebook Lead Ads Business Capability Map
   - type: AgenticAccess
     url: agentic-access/facebook-lead-ads-agentic-access.yml
   - type: Authentication
