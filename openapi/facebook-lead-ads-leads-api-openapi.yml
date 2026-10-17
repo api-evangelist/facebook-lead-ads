@@ -70,13 +70,6 @@ paths:
       tags:
       - Leads
 components:
-  parameters:
-    Fields:
-      name: fields
-      in: query
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
   schemas:
     GraphCollection:
       type: object
@@ -99,6 +92,13 @@ components:
               type: string
             previous:
               type: string
+  parameters:
+    Fields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
   securitySchemes:
     PageAccessToken:
       type: oauth2
