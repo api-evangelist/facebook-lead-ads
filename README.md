@@ -1,4 +1,4 @@
-# Facebook Lead Ads (facebook-lead-ads)
+# Facebook Lead Ads
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,66 +66,161 @@
 
 Facebook Lead Ads (part of the Meta Marketing API) lets advertisers create instant lead-generation forms on Facebook and Instagram and programmatically retrieve the leads captured through those forms. Through the Meta Graph API developers can list lead generation forms on a Page, read submitted leads, download bulk lead exports, and subscribe to webhooks for real-time lead delivery. Authentication uses Page access tokens issued via Facebook Login / Meta Business Login with the leads_retrieval, pages_show_list, and pages_manage_ads permissions.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/apis.yml)
+**Areas:** Advertising · Lead Generation · Lead Ads · Marketing API · Facebook · Instagram · Meta · Webhook
 
-## Scope
+## Facebook Lead Ads on APIs.io
 
-- **Type:** Index
+Everything profiled for Facebook Lead Ads is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/facebook-lead-ads/](https://apis.io/providers/facebook-lead-ads/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (7)
 
-- Advertising
-- Lead Generation
-- Lead Ads
-- Marketing API
-- Facebook
-- Instagram
-- Meta
-- Webhooks
+- [Meta Marketing API - Lead Ads](https://apis.io/apis/facebook-lead-ads/graph-api/) — Graph API endpoints for managing Facebook and Instagram lead generation forms, retrieving captured leads, exporting bulk lead data, and subscribing to…
+- [Facebook Lead Ads Bulk Leads API](https://apis.io/apis/facebook-lead-ads/facebook-lead-ads-bulk-leads-api/) — The Bulk Leads API from Facebook Lead Ads — 1 operation(s) for bulk leads.
+- [Facebook Lead Ads Leadgen Forms API](https://apis.io/apis/facebook-lead-ads/facebook-lead-ads-leadgen-forms-api/) — The Leadgen Forms API from Facebook Lead Ads — 1 operation(s) for leadgen forms.
+- [Facebook Lead Ads Leads API](https://apis.io/apis/facebook-lead-ads/facebook-lead-ads-leads-api/) — The Leads API from Facebook Lead Ads — 2 operation(s) for leads.
+- [Facebook Lead Ads Meta Marketing API Lead Ads API](https://apis.io/apis/facebook-lead-ads/facebook-lead-ads-meta-marketing-api-lead-ads-api/) — The Meta Marketing API Lead Ads API from Facebook Lead Ads — 2 operation(s) for meta marketing api lead ads.
+- [Facebook Lead Ads Subscribed Apps API](https://apis.io/apis/facebook-lead-ads/facebook-lead-ads-subscribed-apps-api/) — The Subscribed Apps API from Facebook Lead Ads — 1 operation(s) for subscribed apps.
+- [Facebook Lead Ads Subscriptions API](https://apis.io/apis/facebook-lead-ads/facebook-lead-ads-subscriptions-api/) — The Subscriptions API from Facebook Lead Ads — 1 operation(s) for subscriptions.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-11
-- **Modified:** 2026-05-11
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Meta Marketing API - Lead Ads
+Event-driven and webhook contracts.
 
-Graph API endpoints for managing Facebook and Instagram lead generation forms, retrieving captured leads, exporting bulk lead data, and subscribing to leadgen webhooks. Authentication uses Page access tokens with leads_retrieval, pages_show_list, and pages_manage_ads permissions.
+- [Facebook Lead Ads Webhooks](https://apis.io/asyncapis/facebook-lead-ads/facebook-lead-ads-webhooks/)
 
-- **Human URL:** [https://developers.facebook.com/docs/marketing-api/guides/lead-ads/](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/)
-- **Base URL:** `https://graph.facebook.com`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Lead Ads
-- Lead Generation
-- Marketing API
-- Graph API
-- Webhooks
+- [Meta Ads MCP Server](https://apis.io/servers/facebook-lead-ads/meta-ads-mcp-server/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/)
-- [API Reference](https://developers.facebook.com/docs/marketing-api/reference/)
-- [Retrieving  Leads](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/retrieving)
-- [Webhooks](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/quickstart-webhook)
-- [Postman Collection](collections/facebook-lead-ads.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/facebook-lead-ads.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-## Common Properties
+- [Facebook Lead Ads Agentic Access](https://apis.io/agentic-access/facebook-lead-ads/facebook-lead-ads-agentic-access/)
+
+#### Collections (7)
+
+Postman and Open Collection request collections.
+
+- [Meta Marketing API - Lead Ads](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads/)
+- [Meta Marketing API - Lead Ads Bulk Leads API](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads-bulk-leads-api/)
+- [Meta Marketing API - Lead Ads Bulk Leads Leadgen Forms API](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads-leadgen-forms-api/)
+- [Meta Marketing API - Lead Ads Bulk Leads API](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads-leads-api/)
+- [Meta Marketing API - Lead Ads Bulk Leads Meta Marketing API Lead Ads API](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads-meta-marketing-api-lead-ads-api/)
+- [Meta Marketing API - Lead Ads Bulk Leads Subscribed Apps API](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads-subscribed-apps-api/)
+- [Meta Marketing API - Lead Ads Bulk Leads Subscriptions API](https://apis.io/collections/facebook-lead-ads/open-facebook-lead-ads-subscriptions-api/)
+
+#### Overlays (6)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Facebook Lead Ads Bulk Leads Api Overlay](https://apis.io/overlays/facebook-lead-ads/facebook-lead-ads-bulk-leads-api-overlay/)
+- [Facebook Lead Ads Leadgen Forms Api Overlay](https://apis.io/overlays/facebook-lead-ads/facebook-lead-ads-leadgen-forms-api-overlay/)
+- [Facebook Lead Ads Leads Api Overlay](https://apis.io/overlays/facebook-lead-ads/facebook-lead-ads-leads-api-overlay/)
+- [Facebook Lead Ads Meta Marketing Api Lead Ads Api Overlay](https://apis.io/overlays/facebook-lead-ads/facebook-lead-ads-meta-marketing-api-lead-ads-api-overlay/)
+- [Facebook Lead Ads Subscribed Apps Api Overlay](https://apis.io/overlays/facebook-lead-ads/facebook-lead-ads-subscribed-apps-api-overlay/)
+- [Facebook Lead Ads Subscriptions Api Overlay](https://apis.io/overlays/facebook-lead-ads/facebook-lead-ads-subscriptions-api-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Facebook Lead Ads Authentication](https://apis.io/security/facebook-lead-ads/facebook-lead-ads-authentication/)
+- [Facebook Lead Ads Domain Security](https://apis.io/security/facebook-lead-ads/facebook-lead-ads-domain-security/)
+- [Facebook Lead Ads Vulnerability Disclosure](https://apis.io/security/facebook-lead-ads/facebook-lead-ads-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Facebook Lead Ads Scopes](https://apis.io/scopes/facebook-lead-ads/facebook-lead-ads-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Facebook Lead Ads Plans Pricing](https://apis.io/plans/facebook-lead-ads/facebook-lead-ads-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Facebook Lead Ads Rate Limits](https://apis.io/rate-limits/facebook-lead-ads/facebook-lead-ads-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.facebook.com/business/ads/lead-ads)
 - [Documentation](https://developers.facebook.com/docs/marketing-api/guides/lead-ads/)
-- [Developer  Portal](https://developers.facebook.com)
-- [Marketing  A P I](https://developers.facebook.com/docs/marketing-api/)
-- [Sign Up](https://developers.facebook.com/async/registration/)
-- [App  Dashboard](https://developers.facebook.com/apps/)
+- [Getting started](https://developers.facebook.com/docs/marketing-api/get-started)
+- [API reference](https://developers.facebook.com/docs/marketing-api/reference/)
+- [Sign up](https://developers.facebook.com/async/registration/)
 - [Support](https://developers.facebook.com/support/)
-- [L L Ms Txt](https://developers.facebook.com/llms.txt)
+- [Blog](https://developers.facebook.com/blog/)
+- [Security](https://bugbounty.meta.com/)
+- [Terms of service](https://developers.facebook.com/terms/)
+- [Privacy policy](https://www.facebook.com/privacy/policy/)
+- [GitHub](https://github.com/facebook)
+- [Status](https://metastatus.com/marketing-api)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 53.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 52.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 76.3 |
+| Developer ergonomics | 76.8 |
+| Access clarity | 23.7 |
+
+**Agent readiness 45.7** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 36.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/facebook-lead-ads/](https://apis.io/providers/facebook-lead-ads/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Facebook Lead Ads: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/facebook-lead-ads/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
